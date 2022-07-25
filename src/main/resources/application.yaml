@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:mysql://localhost:3306/mercado?useTimezone=true&serverTimezone=America/Sao_Paulo
+    username: root
+    password: teamo123
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-plataform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
