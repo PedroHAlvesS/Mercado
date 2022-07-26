@@ -16,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PedidoService {
 
@@ -65,7 +68,20 @@ public class PedidoService {
 
     public ResponsePedidoDTO atualiza(Long id, RequestPatchDto patchDto) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-        modelMapper.map(patchDto, pedidoEntity);
+        if (patchDto.getCpf() != null && !patchDto.getCpf().isBlank()) {
+            pedidoEntity.setCpf(patchDto.getCpf());
+        }
+        if (patchDto.getItens() != null && !patchDto.getItens().isEmpty()) {
+            Double total = 0.0;
+            List<ItemEntity> itemEntityList = new ArrayList<>();
+            for (int i = 0; i < patchDto.getItens().size(); i++) {
+                ItemEntity itemEntity = itemRepository.findById(patchDto.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
+                total += itemEntity.getValor();
+                itemEntityList.add(itemEntity);
+            }
+            pedidoEntity.setItens(itemEntityList);
+            pedidoEntity.setTotal(total);
+        }
         pedidoRepository.save(pedidoEntity);
         return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
     }
