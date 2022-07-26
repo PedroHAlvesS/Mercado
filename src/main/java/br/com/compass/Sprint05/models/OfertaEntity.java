@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.entities;
+package br.com.compass.Sprint05.models;
 
 import lombok.Data;
 
