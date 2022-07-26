@@ -13,7 +13,11 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpf;
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "pedidos_itens",
+            joinColumns = {@JoinColumn(name = "pedido_id")},
+            inverseJoinColumns = {@JoinColumn(name = "item_id")})
     private List<ItemEntity> itens;
     private Double total;
 }

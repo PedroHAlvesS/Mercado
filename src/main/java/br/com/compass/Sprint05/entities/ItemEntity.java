@@ -13,10 +13,10 @@ public class ItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private String descricao;
+    private Double valor;
     private LocalDate dataCriacao;
     private LocalDate dataValidade;
-    private Double valor;
-    private String descricao;
     @OneToOne
     private OfertaEntity oferta;
 }
