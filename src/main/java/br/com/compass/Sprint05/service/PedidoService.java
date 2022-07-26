@@ -59,7 +59,7 @@ public class PedidoService {
 
 
     public ResponsePedidoDetalhadoDto detalha(Long id) {
-        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(Run::new);
+        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
         return modelMapper.map(pedidoEntity, ResponsePedidoDetalhadoDto.class);
     }
 
