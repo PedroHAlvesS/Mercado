@@ -1,9 +1,9 @@
 package br.com.compass.Sprint05.service;
 
-import br.com.compass.Sprint05.dto.request.PedidoRequestDTO;
-import br.com.compass.Sprint05.dto.request.RequestPatchDto;
-import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.response.ResponsePedidoDetalhadoDto;
+import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
+import br.com.compass.Sprint05.dto.pedido.request.RequestPatchDto;
+import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
+import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDetalhadoDto;
 import br.com.compass.Sprint05.entities.ItemEntity;
 import br.com.compass.Sprint05.entities.PedidoEntity;
 import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
@@ -28,7 +28,7 @@ public class PedidoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ResponsePedidoDTO salva(PedidoRequestDTO requestDTO) {
+    public ResponsePedidoDTO salva(RequestPedidoDto requestDTO) {
         Double valor = 0.0;
         PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
         for (int i = 0; i < requestDTO.getItens().size(); i++) {

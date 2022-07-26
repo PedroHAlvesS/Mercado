@@ -1,6 +1,6 @@
-package br.com.compass.Sprint05.dto.response;
+package br.com.compass.Sprint05.dto.pedido.response;
 
-import br.com.compass.Sprint05.dto.request.PedidoItensDTO;
+import br.com.compass.Sprint05.dto.pedido.PedidoItensDto;
 import lombok.Data;
 
 import java.util.List;
@@ -9,6 +9,6 @@ import java.util.List;
 public class ResponsePedidoDTO {
     private Long id;
     private String cpf;
-    private List<PedidoItensDTO> itens;
+    private List<PedidoItensDto> itens;
     private Double total;
 }

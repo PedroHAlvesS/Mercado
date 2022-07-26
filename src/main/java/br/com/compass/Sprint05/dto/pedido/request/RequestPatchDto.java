@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.dto.request;
+package br.com.compass.Sprint05.dto.pedido.request;
 
 import lombok.Data;
 
