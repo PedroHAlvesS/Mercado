@@ -28,9 +28,19 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(responseDTO);
     }
 
+
     @GetMapping
     public ResponseEntity<Page<ResponsePedidoDTO>> listaPedidos(@RequestParam(required = false) String cpf, Pageable pageable) {
         Page<ResponsePedidoDTO> responseDTOList = pedidoService.lista(cpf, pageable);
         return ResponseEntity.ok(responseDTOList);
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> deletaPedido(@PathVariable Long id) {
+        pedidoService.deleta(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

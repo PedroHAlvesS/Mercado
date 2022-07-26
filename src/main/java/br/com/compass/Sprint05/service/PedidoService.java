@@ -5,6 +5,7 @@ import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.entities.ItemEntity;
 import br.com.compass.Sprint05.entities.PedidoEntity;
 import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
+import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,10 @@ public class PedidoService {
         ResponsePedidoDTO responseDTO = modelMapper.map(saveEntity, ResponsePedidoDTO.class);
         return responseDTO;
 
+    }
+    public void deleta(Long id) {
+        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
+        pedidoRepository.delete(pedidoEntity);
     }
 
     public Page<ResponsePedidoDTO> lista(String cpf, Pageable pageable) {
