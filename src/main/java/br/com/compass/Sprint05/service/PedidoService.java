@@ -10,6 +10,8 @@ import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,6 +42,17 @@ public class PedidoService {
     public void deleta(Long id) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
         pedidoRepository.delete(pedidoEntity);
+    }
+
+    public Page<ResponsePedidoDTO> lista(String cpf, Pageable pageable) {
+        Page<PedidoEntity> pedidoEntities;
+        if (cpf == null) {
+            pedidoEntities = pedidoRepository.findAll(pageable);
+        } else {
+            pedidoEntities = pedidoRepository.findByCpf(cpf, pageable);
+        }
+        Page<ResponsePedidoDTO> dtoPage = pedidoEntities.map(pedidoEntity -> modelMapper.map(pedidoEntity, ResponsePedidoDTO.class));
+        return dtoPage;
     }
 
 }

@@ -4,6 +4,8 @@ import br.com.compass.Sprint05.dto.request.PedidoRequestDTO;
 import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +28,19 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(responseDTO);
     }
 
+
+    @GetMapping
+    public ResponseEntity<Page<ResponsePedidoDTO>> listaPedidos(@RequestParam(required = false) String cpf, Pageable pageable) {
+        Page<ResponsePedidoDTO> responseDTOList = pedidoService.lista(cpf, pageable);
+        return ResponseEntity.ok(responseDTOList);
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deletaPedido(@PathVariable Long id) {
         pedidoService.deleta(id);
         return ResponseEntity.noContent().build();
     }
+
 
 }
