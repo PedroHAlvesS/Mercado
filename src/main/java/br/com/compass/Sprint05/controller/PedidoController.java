@@ -1,6 +1,7 @@
 package br.com.compass.Sprint05.controller;
 
 import br.com.compass.Sprint05.dto.request.PedidoRequestDTO;
+import br.com.compass.Sprint05.dto.request.RequestPatchDto;
 import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.dto.response.ResponsePedidoDetalhadoDto;
 import br.com.compass.Sprint05.service.PedidoService;
@@ -46,6 +47,12 @@ public class PedidoController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponsePedidoDetalhadoDto> detalhaPedido(@PathVariable Long id) {
         ResponsePedidoDetalhadoDto responseDto = pedidoService.detalha(id);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponsePedidoDTO> atualiza(@PathVariable Long id, @RequestBody RequestPatchDto patchDto) {
+        ResponsePedidoDTO responseDto = pedidoService.atualiza(id, patchDto);
         return ResponseEntity.ok(responseDto);
     }
 

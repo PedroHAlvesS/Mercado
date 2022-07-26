@@ -1,6 +1,7 @@
 package br.com.compass.Sprint05.service;
 
 import br.com.compass.Sprint05.dto.request.PedidoRequestDTO;
+import br.com.compass.Sprint05.dto.request.RequestPatchDto;
 import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.dto.response.ResponsePedidoDetalhadoDto;
 import br.com.compass.Sprint05.entities.ItemEntity;
@@ -58,7 +59,14 @@ public class PedidoService {
 
 
     public ResponsePedidoDetalhadoDto detalha(Long id) {
-        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
+        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(Run::new);
         return modelMapper.map(pedidoEntity, ResponsePedidoDetalhadoDto.class);
+    }
+
+    public ResponsePedidoDTO atualiza(Long id, RequestPatchDto patchDto) {
+        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
+        modelMapper.map(patchDto, pedidoEntity);
+        pedidoRepository.save(pedidoEntity);
+        return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
     }
 }
