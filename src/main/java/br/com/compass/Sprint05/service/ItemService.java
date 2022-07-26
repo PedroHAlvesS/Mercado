@@ -1,6 +1,7 @@
 package br.com.compass.Sprint05.service;
 
 import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
+import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
 import br.com.compass.Sprint05.dto.item.response.ResponseItemDto;
 import br.com.compass.Sprint05.models.ItemEntity;
 import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
@@ -23,5 +24,11 @@ public class ItemService {
         modelMapper.map(patchDto, itemEntity);
         itemRepository.save(itemEntity);
         return modelMapper.map(itemEntity, ResponseItemDto.class);
+    }
+
+    public ResponseItemDto cria(RequestItemDto requestItemDto) {
+        ItemEntity itemEntity = modelMapper.map(requestItemDto, ItemEntity.class);
+        ItemEntity itemSaved = itemRepository.save(itemEntity);
+        return modelMapper.map(itemSaved, ResponseItemDto.class);
     }
 }
