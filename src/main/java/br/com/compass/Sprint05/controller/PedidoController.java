@@ -24,7 +24,7 @@ public class PedidoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@RequestBody @Valid RequestPedidoDto requestDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@Valid @RequestBody RequestPedidoDto requestDTO, UriComponentsBuilder uriBuilder) {
         ResponsePedidoDTO responseDTO = pedidoService.salva(requestDTO);
         URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(responseDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(responseDTO);
@@ -51,7 +51,7 @@ public class PedidoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponsePedidoDTO> atualiza(@PathVariable Long id, @RequestBody RequestPatchDto patchDto) {
+    public ResponseEntity<ResponsePedidoDTO> atualiza(@PathVariable Long id, @Valid @RequestBody RequestPatchDto patchDto) {
         ResponsePedidoDTO responseDto = pedidoService.atualiza(id, patchDto);
         return ResponseEntity.ok(responseDto);
     }

@@ -1,6 +1,7 @@
 package br.com.compass.Sprint05.models;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import java.util.List;
