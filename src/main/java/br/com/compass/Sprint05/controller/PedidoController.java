@@ -1,9 +1,9 @@
 package br.com.compass.Sprint05.controller;
 
-import br.com.compass.Sprint05.dto.request.PedidoRequestDTO;
-import br.com.compass.Sprint05.dto.request.RequestPatchDto;
-import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.response.ResponsePedidoDetalhadoDto;
+import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
+import br.com.compass.Sprint05.dto.pedido.request.RequestPatchDto;
+import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
+import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDetalhadoDto;
 import br.com.compass.Sprint05.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public class PedidoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@RequestBody @Valid PedidoRequestDTO requestDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@RequestBody @Valid RequestPedidoDto requestDTO, UriComponentsBuilder uriBuilder) {
         ResponsePedidoDTO responseDTO = pedidoService.salva(requestDTO);
         URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(responseDTO.getId()).toUri();
         return ResponseEntity.created(uri).body(responseDTO);
