@@ -13,9 +13,9 @@ public class OfertaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    private String descricao;
+    private Double desconto;
     private LocalDate dataCriacao;
     private LocalDate dataValidacao;
-    private Double desconto;
-    private String descricao;
 }
 
