@@ -1,7 +1,7 @@
 package br.com.compass.Sprint05.controller;
 
-import br.com.compass.Sprint05.dto.item.RequestAtualizaItemDto;
-import br.com.compass.Sprint05.dto.item.ResponseItemDto;
+import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
+import br.com.compass.Sprint05.dto.item.response.ResponseItemDto;
 import br.com.compass.Sprint05.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
