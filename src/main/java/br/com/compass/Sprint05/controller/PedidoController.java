@@ -2,6 +2,7 @@ package br.com.compass.Sprint05.controller;
 
 import br.com.compass.Sprint05.dto.request.PedidoRequestDTO;
 import br.com.compass.Sprint05.dto.response.ResponsePedidoDTO;
+import br.com.compass.Sprint05.dto.response.ResponsePedidoDetalhadoDto;
 import br.com.compass.Sprint05.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,5 +43,10 @@ public class PedidoController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponsePedidoDetalhadoDto> detalhaPedido(@PathVariable Long id) {
+        ResponsePedidoDetalhadoDto responseDto = pedidoService.detalha(id);
+        return ResponseEntity.ok(responseDto);
+    }
 
 }
