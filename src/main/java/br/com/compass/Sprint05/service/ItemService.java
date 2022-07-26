@@ -22,9 +22,6 @@ public class ItemService {
         ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(ItemNaoEncontrado::new);
         modelMapper.map(patchDto, itemEntity);
         itemRepository.save(itemEntity);
-        ItemEntity itemEntity1 = new ItemEntity();
-        itemEntity1.setNome("Teste data");
-        itemRepository.save(itemEntity1);
         return modelMapper.map(itemEntity, ResponseItemDto.class);
     }
 }
