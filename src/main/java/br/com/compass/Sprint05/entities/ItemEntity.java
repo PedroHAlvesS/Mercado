@@ -1,9 +1,11 @@
 package br.com.compass.Sprint05.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "item")
@@ -15,8 +17,13 @@ public class ItemEntity {
     private String nome;
     private String descricao;
     private Double valor;
-    private LocalDate dataCriacao;
-    private LocalDate dataValidade;
-    @OneToOne
-    private OfertaEntity oferta;
+    @CreationTimestamp
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataValidade;
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "itens_ofertas",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "oferta_id")})
+    private Set<OfertaEntity> ofertas;
 }
