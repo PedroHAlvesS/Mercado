@@ -2,6 +2,7 @@ package br.com.compass.Sprint05.dto.pedido.request;
 
 import br.com.compass.Sprint05.dto.pedido.PedidoItensDto;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Data
 public class RequestPedidoDto {
-    @NotBlank
+    @NotBlank @CPF(message = "Cpf inválido")
     private String cpf;
     @NotNull
     @Size(min = 1)
