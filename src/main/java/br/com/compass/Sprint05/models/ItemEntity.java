@@ -5,7 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "item")
@@ -25,5 +25,5 @@ public class ItemEntity {
             name = "itens_ofertas",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "oferta_id")})
-    private Set<OfertaEntity> ofertas;
+    private List<OfertaEntity> ofertas;
 }

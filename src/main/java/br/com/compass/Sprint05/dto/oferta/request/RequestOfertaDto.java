@@ -1,21 +1,18 @@
-package br.com.compass.Sprint05.dto.item.request;
+package br.com.compass.Sprint05.dto.oferta.request;
 
-import br.com.compass.Sprint05.dto.item.ItemOfertaDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @Data
-public class RequestItemDto {
+public class RequestOfertaDto {
     @NotBlank
     private String nome;
     @NotBlank
     private String descricao;
+    @Positive
+    private Double desconto;
     @NotBlank
     private String dataValidade;
-    @Positive
-    private Double valor;
-    private List<ItemOfertaDto> ofertas;
 }

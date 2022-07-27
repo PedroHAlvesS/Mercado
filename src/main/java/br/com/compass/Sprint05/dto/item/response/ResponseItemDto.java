@@ -1,6 +1,9 @@
 package br.com.compass.Sprint05.dto.item.response;
 
+import br.com.compass.Sprint05.dto.item.ItemOfertaDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ResponseItemDto {
@@ -10,4 +13,5 @@ public class ResponseItemDto {
     private String dataCriacao;
     private String dataValidade;
     private Double valor;
+    private List<ItemOfertaDto> ofertas;
 }

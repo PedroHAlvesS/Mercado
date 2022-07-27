@@ -1,9 +1,7 @@
 package br.com.compass.Sprint05.handler;
 
 import br.com.compass.Sprint05.dto.ExceptionResponseDto;
-import br.com.compass.Sprint05.exceptions.DataInvalida;
-import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
-import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
+import br.com.compass.Sprint05.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -54,6 +52,22 @@ public class ExceptionsHandlers {
     public ResponseEntity<ExceptionResponseDto> handlerPedidoNaoEncontrado(PedidoNaoEncontrado exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Pedido nao encontrado", "Pedido");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponseDTO);
+
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(OfertaNaoEncontrado.class)
+    public ResponseEntity<ExceptionResponseDto> handlerOfertaNaoEncontrado(OfertaNaoEncontrado exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Oferta nao encontrada", "Oferta");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponseDTO);
+
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataValidadeInvalida.class)
+    public ResponseEntity<ExceptionResponseDto> handlerDataValidadeAntesDaCriacao(DataValidadeInvalida exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Data validade está antes da data de criação", "dataValidade");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
 
     }
 

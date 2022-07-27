@@ -1,9 +1,10 @@
 package br.com.compass.Sprint05.models;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "oferta")
@@ -15,7 +16,8 @@ public class OfertaEntity {
     private String nome;
     private String descricao;
     private Double desconto;
-    private LocalDate dataCriacao;
-    private LocalDate dataValidacao;
+    @CreationTimestamp
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataValidade;
 }
 
