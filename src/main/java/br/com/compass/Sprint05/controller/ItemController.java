@@ -25,14 +25,6 @@ public class ItemController {
     public ResponseEntity<ResponseItemDto> atualiza(@PathVariable Long id, @RequestBody RequestAtualizaItemDto patchDto) {
         ResponseItemDto responseDto = itemService.atualiza(id, patchDto);
         return ResponseEntity.ok(responseDto);
-
     }
 
-    @PostMapping
-    @Transactional
-    public ResponseEntity<ResponseItemDto> criaItem(@Valid @RequestBody RequestItemDto requestItemDto, UriComponentsBuilder uriBuilder) {
-        ResponseItemDto responseDto = itemService.cria(requestItemDto);
-        URI uri = uriBuilder.path("/api/item/{id}").buildAndExpand(responseDto.getId()).toUri();
-        return ResponseEntity.created(uri).body(responseDto);
-    }
 }

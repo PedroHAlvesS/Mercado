@@ -1,23 +1,18 @@
 package br.com.compass.Sprint05.service;
 
+import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
-import br.com.compass.Sprint05.dto.pedido.request.RequestPatchDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDetalhadoDto;
-import br.com.compass.Sprint05.models.ItemEntity;
-import br.com.compass.Sprint05.models.PedidoEntity;
-import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
 import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
+import br.com.compass.Sprint05.models.PedidoEntity;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
+import br.com.compass.Sprint05.util.ValidaDatas;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PedidoService {
@@ -29,15 +24,23 @@ public class PedidoService {
     private ItemRepository itemRepository;
 
     @Autowired
+    private ValidaDatas validaDatas;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public ResponsePedidoDTO salva(RequestPedidoDto requestDTO) {
+
         Double valor = 0.0;
-        PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
         for (int i = 0; i < requestDTO.getItens().size(); i++) {
-            ItemEntity item = itemRepository.findById(requestDTO.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
-            valor += item.getValor();
+            valor += requestDTO.getItens().get(i).getValor();
         }
+
+        for (int i = 0; i < requestDTO.getItens().size(); i++) {
+            validaDatas.validaDataDeCriacaoDaOferta(requestDTO.getItens().get(0));
+        }
+
+        PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
         pedidoEntity.setTotal(valor);
         PedidoEntity saveEntity = pedidoRepository.save(pedidoEntity);
         ResponsePedidoDTO responseDTO = modelMapper.map(saveEntity, ResponsePedidoDTO.class);
@@ -61,25 +64,20 @@ public class PedidoService {
     }
 
 
-    public ResponsePedidoDetalhadoDto detalha(Long id) {
+    public ResponsePedidoDTO detalha(Long id) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-        return modelMapper.map(pedidoEntity, ResponsePedidoDetalhadoDto.class);
+        return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
     }
 
-    public ResponsePedidoDTO atualiza(Long id, RequestPatchDto patchDto) {
+    public ResponsePedidoDTO atualiza(Long id, RequestAtualizaPedidoDto patchDto) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-        if (patchDto.getCpf() != null && !patchDto.getCpf().isBlank()) {
-            pedidoEntity.setCpf(patchDto.getCpf());
-        }
+        modelMapper.map(patchDto, pedidoEntity);
+
         if (patchDto.getItens() != null && !patchDto.getItens().isEmpty()) {
             Double total = 0.0;
-            List<ItemEntity> itemEntityList = new ArrayList<>();
             for (int i = 0; i < patchDto.getItens().size(); i++) {
-                ItemEntity itemEntity = itemRepository.findById(patchDto.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
-                total += itemEntity.getValor();
-                itemEntityList.add(itemEntity);
+                total += patchDto.getItens().get(i).getValor();
             }
-            pedidoEntity.setItens(itemEntityList);
             pedidoEntity.setTotal(total);
         }
         pedidoRepository.save(pedidoEntity);

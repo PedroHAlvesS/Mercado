@@ -14,7 +14,7 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpf;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "pedidos_itens",
             joinColumns = {@JoinColumn(name = "pedido_id")},
