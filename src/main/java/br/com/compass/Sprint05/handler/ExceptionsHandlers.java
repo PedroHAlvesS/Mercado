@@ -1,7 +1,6 @@
 package br.com.compass.Sprint05.handler;
 
 import br.com.compass.Sprint05.dto.ExceptionResponseDto;
-import br.com.compass.Sprint05.dto.item.exceptions.*;
 import br.com.compass.Sprint05.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
