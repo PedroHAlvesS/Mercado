@@ -20,7 +20,7 @@ public class ItemEntity {
     @CreationTimestamp
     private LocalDateTime dataCriacao;
     private LocalDateTime dataValidade;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "itens_ofertas",
             joinColumns = {@JoinColumn(name = "item_id")},

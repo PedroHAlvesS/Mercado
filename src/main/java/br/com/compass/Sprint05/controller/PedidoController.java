@@ -1,9 +1,8 @@
 package br.com.compass.Sprint05.controller;
 
+import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
-import br.com.compass.Sprint05.dto.pedido.request.RequestPatchDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDetalhadoDto;
 import br.com.compass.Sprint05.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,13 +44,14 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponsePedidoDetalhadoDto> detalhaPedido(@PathVariable Long id) {
-        ResponsePedidoDetalhadoDto responseDto = pedidoService.detalha(id);
+    public ResponseEntity<ResponsePedidoDTO> detalhaPedido(@PathVariable Long id) {
+        ResponsePedidoDTO responseDto = pedidoService.detalha(id);
         return ResponseEntity.ok(responseDto);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponsePedidoDTO> atualiza(@PathVariable Long id, @Valid @RequestBody RequestPatchDto patchDto) {
+    @Transactional
+    public ResponseEntity<ResponsePedidoDTO> atualiza(@PathVariable Long id, @Valid @RequestBody RequestAtualizaPedidoDto patchDto) {
         ResponsePedidoDTO responseDto = pedidoService.atualiza(id, patchDto);
         return ResponseEntity.ok(responseDto);
     }
