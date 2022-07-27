@@ -1,5 +1,6 @@
 package br.com.compass.Sprint05.service;
 
+import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
@@ -68,23 +69,18 @@ public class PedidoService {
         return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
     }
 
-//    public ResponsePedidoDTO atualiza(Long id, RequestPedidoDto patchDto) {
-//        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-//        if (patchDto.getCpf() != null && !patchDto.getCpf().isBlank()) {
-//            pedidoEntity.setCpf(patchDto.getCpf());
-//        }
-//        if (patchDto.getItens() != null && !patchDto.getItens().isEmpty()) {
-//            Double total = 0.0;
-//            List<ItemEntity> itemEntityList = new ArrayList<>();
-//            for (int i = 0; i < patchDto.getItens().size(); i++) {
-//                ItemEntity itemEntity = itemRepository.findById(patchDto.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
-//                total += itemEntity.getValor();
-//                itemEntityList.add(itemEntity);
-//            }
-//            pedidoEntity.setItens(itemEntityList);
-//            pedidoEntity.setTotal(total);
-//        }
-//        pedidoRepository.save(pedidoEntity);
-//        return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
-//    }
+    public ResponsePedidoDTO atualiza(Long id, RequestAtualizaPedidoDto patchDto) {
+        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
+        modelMapper.map(patchDto, pedidoEntity);
+
+        if (patchDto.getItens() != null && !patchDto.getItens().isEmpty()) {
+            Double total = 0.0;
+            for (int i = 0; i < patchDto.getItens().size(); i++) {
+                total += patchDto.getItens().get(i).getValor();
+            }
+            pedidoEntity.setTotal(total);
+        }
+        pedidoRepository.save(pedidoEntity);
+        return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
+    }
 }

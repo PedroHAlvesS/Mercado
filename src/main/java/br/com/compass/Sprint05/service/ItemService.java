@@ -31,13 +31,4 @@ public class ItemService {
         return modelMapper.map(itemEntity, ResponseItemDto.class);
     }
 
-    public ResponseItemDto cria(RequestItemDto requestItemDto) {
-        ItemEntity itemEntity = modelMapper.map(requestItemDto, ItemEntity.class);
-
-        if (requestItemDto.getOfertas() != null) {
-            validaDatas.validaDataDeCriacaoDaOferta(requestItemDto);
-        }
-        ItemEntity itemSaved = itemRepository.save(itemEntity);
-        return modelMapper.map(itemSaved, ResponseItemDto.class);
-    }
 }
