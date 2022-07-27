@@ -10,6 +10,7 @@ import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
 import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
+import br.com.compass.Sprint05.util.ValidaDatas;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,15 +30,23 @@ public class PedidoService {
     private ItemRepository itemRepository;
 
     @Autowired
+    private ValidaDatas validaDatas;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public ResponsePedidoDTO salva(RequestPedidoDto requestDTO) {
+
         Double valor = 0.0;
-        PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
         for (int i = 0; i < requestDTO.getItens().size(); i++) {
-            ItemEntity item = itemRepository.findById(requestDTO.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
-            valor += item.getValor();
+            valor += requestDTO.getItens().get(i).getValor();
         }
+
+        for (int i = 0; i < requestDTO.getItens().size(); i++) {
+            validaDatas.validaDataDeCriacaoDaOferta(requestDTO.getItens().get(0));
+        }
+
+        PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
         pedidoEntity.setTotal(valor);
         PedidoEntity saveEntity = pedidoRepository.save(pedidoEntity);
         ResponsePedidoDTO responseDTO = modelMapper.map(saveEntity, ResponsePedidoDTO.class);
