@@ -2,8 +2,6 @@ package br.com.compass.Sprint05.util;
 
 import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
 import br.com.compass.Sprint05.exceptions.DataValidadeInvalida;
-import br.com.compass.Sprint05.exceptions.OfertaNaoEncontrado;
-import br.com.compass.Sprint05.models.OfertaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
