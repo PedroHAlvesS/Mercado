@@ -1,17 +1,12 @@
 package br.com.compass.Sprint05.controller;
 
 import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
-import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
 import br.com.compass.Sprint05.dto.item.response.ResponseItemDto;
 import br.com.compass.Sprint05.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.validation.Valid;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/item")

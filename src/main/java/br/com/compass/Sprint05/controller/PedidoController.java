@@ -50,6 +50,7 @@ public class PedidoController {
     }
 
     @PatchMapping("/{id}")
+    @Transactional
     public ResponseEntity<ResponsePedidoDTO> atualiza(@PathVariable Long id, @Valid @RequestBody RequestAtualizaPedidoDto patchDto) {
         ResponsePedidoDTO responseDto = pedidoService.atualiza(id, patchDto);
         return ResponseEntity.ok(responseDto);

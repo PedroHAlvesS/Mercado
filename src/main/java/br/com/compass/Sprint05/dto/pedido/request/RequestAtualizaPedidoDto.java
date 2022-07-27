@@ -5,7 +5,6 @@ import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Data
