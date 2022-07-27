@@ -43,8 +43,7 @@ public class PedidoService {
         PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
         pedidoEntity.setTotal(valor);
         PedidoEntity saveEntity = pedidoRepository.save(pedidoEntity);
-        ResponsePedidoDTO responseDTO = modelMapper.map(saveEntity, ResponsePedidoDTO.class);
-        return responseDTO;
+        return modelMapper.map(saveEntity, ResponsePedidoDTO.class);
 
     }
     public void deleta(Long id) {
@@ -59,8 +58,7 @@ public class PedidoService {
         } else {
             pedidoEntities = pedidoRepository.findByCpf(cpf, pageable);
         }
-        Page<ResponsePedidoDTO> dtoPage = pedidoEntities.map(pedidoEntity -> modelMapper.map(pedidoEntity, ResponsePedidoDTO.class));
-        return dtoPage;
+        return pedidoEntities.map(pedidoEntity -> modelMapper.map(pedidoEntity, ResponsePedidoDTO.class));
     }
 
 
