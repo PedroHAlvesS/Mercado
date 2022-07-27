@@ -1,13 +1,9 @@
 package br.com.compass.Sprint05.service;
 
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
-import br.com.compass.Sprint05.dto.pedido.request.RequestPatchDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDetalhadoDto;
-import br.com.compass.Sprint05.models.ItemEntity;
-import br.com.compass.Sprint05.models.PedidoEntity;
-import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
 import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
+import br.com.compass.Sprint05.models.PedidoEntity;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import br.com.compass.Sprint05.util.ValidaDatas;
@@ -16,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PedidoService {
@@ -70,28 +63,28 @@ public class PedidoService {
     }
 
 
-    public ResponsePedidoDetalhadoDto detalha(Long id) {
+    public ResponsePedidoDTO detalha(Long id) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-        return modelMapper.map(pedidoEntity, ResponsePedidoDetalhadoDto.class);
-    }
-
-    public ResponsePedidoDTO atualiza(Long id, RequestPatchDto patchDto) {
-        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-        if (patchDto.getCpf() != null && !patchDto.getCpf().isBlank()) {
-            pedidoEntity.setCpf(patchDto.getCpf());
-        }
-        if (patchDto.getItens() != null && !patchDto.getItens().isEmpty()) {
-            Double total = 0.0;
-            List<ItemEntity> itemEntityList = new ArrayList<>();
-            for (int i = 0; i < patchDto.getItens().size(); i++) {
-                ItemEntity itemEntity = itemRepository.findById(patchDto.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
-                total += itemEntity.getValor();
-                itemEntityList.add(itemEntity);
-            }
-            pedidoEntity.setItens(itemEntityList);
-            pedidoEntity.setTotal(total);
-        }
-        pedidoRepository.save(pedidoEntity);
         return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
     }
+
+//    public ResponsePedidoDTO atualiza(Long id, RequestPedidoDto patchDto) {
+//        PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
+//        if (patchDto.getCpf() != null && !patchDto.getCpf().isBlank()) {
+//            pedidoEntity.setCpf(patchDto.getCpf());
+//        }
+//        if (patchDto.getItens() != null && !patchDto.getItens().isEmpty()) {
+//            Double total = 0.0;
+//            List<ItemEntity> itemEntityList = new ArrayList<>();
+//            for (int i = 0; i < patchDto.getItens().size(); i++) {
+//                ItemEntity itemEntity = itemRepository.findById(patchDto.getItens().get(i).getItemId()).orElseThrow(ItemNaoEncontrado::new);
+//                total += itemEntity.getValor();
+//                itemEntityList.add(itemEntity);
+//            }
+//            pedidoEntity.setItens(itemEntityList);
+//            pedidoEntity.setTotal(total);
+//        }
+//        pedidoRepository.save(pedidoEntity);
+//        return modelMapper.map(pedidoEntity, ResponsePedidoDTO.class);
+//    }
 }
