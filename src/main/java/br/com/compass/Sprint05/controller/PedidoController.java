@@ -3,9 +3,9 @@ package br.com.compass.Sprint05.controller;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
+import br.com.compass.Sprint05.dto.rabbitMQ.PedidoMensagemDto;
 import br.com.compass.Sprint05.service.PedidoService;
-import br.com.compass.Sprint05.service.RabbitMQService;
-import constantes.RabbitmqConstantes;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import rabbitMQ.PagamentoDto;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -25,17 +24,19 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @Autowired
-    RabbitMQService rabbitMQService;
+    private RabbitTemplate rabbitTemplate;
+
 
     @PostMapping
     @Transactional
     public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@Valid @RequestBody RequestPedidoDto requestDTO, UriComponentsBuilder uriBuilder) {
         ResponsePedidoDTO responseDTO = pedidoService.salva(requestDTO);
         URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(responseDTO.getId()).toUri();
-        PagamentoDto pagamentoDto = new PagamentoDto();
-        pagamentoDto.setId(responseDTO.getId());
-        pagamentoDto.setTotal(responseDTO.getTotal());
-        rabbitMQService.enviaMensagem(RabbitmqConstantes.FILA_PEDIDO, pagamentoDto);
+        String routingKey = "pedidos.v1.pedidos-criados";
+        PedidoMensagemDto pedidoMensagemDto = new PedidoMensagemDto();
+        pedidoMensagemDto.setId(responseDTO.getId());
+        pedidoMensagemDto.setTotal(responseDTO.getTotal());
+        rabbitTemplate.convertAndSend(routingKey, pedidoMensagemDto);
         return ResponseEntity.created(uri).body(responseDTO);
     }
 
