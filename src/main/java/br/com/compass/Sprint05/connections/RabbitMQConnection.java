@@ -1,6 +1,6 @@
 package br.com.compass.Sprint05.connections;
 
-import br.com.compass.Sprint05.constantes.RabbitmqConstantes;
+import constantes.RabbitmqConstantes;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.DirectExchange;
@@ -32,20 +32,16 @@ public class RabbitMQConnection {
 
     @PostConstruct
     private void adiciona() {
-        Queue filaEstoque = this.fila(RabbitmqConstantes.FILA_ESTOQUE);
-        Queue filaPreco = this.fila(RabbitmqConstantes.FILA_PRECO);
+        Queue filaPedido = this.fila(RabbitmqConstantes.FILA_PEDIDO);
 
         DirectExchange troca = this.trocaDireta();
 
-        Binding ligacaoEstoque = this.relacionamento(filaEstoque, troca);
-        Binding ligacaoPreco = this.relacionamento(filaPreco, troca);
+        Binding ligacaoPedido = this.relacionamento(filaPedido, troca);
 
-        this.amqpAdmin.declareQueue(filaPreco);
-        this.amqpAdmin.declareQueue(filaEstoque);
+        this.amqpAdmin.declareQueue(filaPedido);
 
         this.amqpAdmin.declareExchange(troca);
 
-        this.amqpAdmin.declareBinding(ligacaoEstoque);
-        this.amqpAdmin.declareBinding(ligacaoPreco);
+        this.amqpAdmin.declareBinding(ligacaoPedido);
     }
 }

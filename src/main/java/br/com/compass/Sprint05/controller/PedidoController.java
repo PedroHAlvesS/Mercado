@@ -1,12 +1,11 @@
 package br.com.compass.Sprint05.controller;
 
-import br.com.compass.Sprint05.constantes.RabbitmqConstantes;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.rabbitMQ.PagamentoDto;
 import br.com.compass.Sprint05.service.PedidoService;
 import br.com.compass.Sprint05.service.RabbitMQService;
+import constantes.RabbitmqConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import rabbitMQ.PagamentoDto;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -35,7 +35,7 @@ public class PedidoController {
         PagamentoDto pagamentoDto = new PagamentoDto();
         pagamentoDto.setId(responseDTO.getId());
         pagamentoDto.setTotal(responseDTO.getTotal());
-        rabbitMQService.enviaMensagem(RabbitmqConstantes.FILA_PRECO, pagamentoDto);
+        rabbitMQService.enviaMensagem(RabbitmqConstantes.FILA_PEDIDO, pagamentoDto);
         return ResponseEntity.created(uri).body(responseDTO);
     }
 
