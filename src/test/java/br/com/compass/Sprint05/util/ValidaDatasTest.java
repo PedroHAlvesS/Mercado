@@ -31,10 +31,9 @@ class ValidaDatasTest {
     @Test
     @DisplayName("Data válida deveria passar")
     void validaDataDeCriacaoDaOferta() {
-        // A validação é feita com base na data agora, por isso é criado uma data agora com +1 de hora;
+        // A validação é feita com base na data agora, por isso é criado uma data agora com +2 de hora;
         // para esse teste ficar permante
-        LocalDateTime dataMockito = LocalDateTime.now();
-        dataMockito.plusHours(1);
+        LocalDateTime dataMockito = LocalDateTime.now().plusHours(2);
 
 
         RequestItemOfertaDto ofertaDto = new RequestItemOfertaDto();
