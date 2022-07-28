@@ -3,9 +3,8 @@ package br.com.compass.Sprint05.controller;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.dto.rabbitMQ.PedidoMensagemDto;
 import br.com.compass.Sprint05.service.PedidoService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import br.com.compass.Sprint05.service.RabbitMQService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +23,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private RabbitMQService rabbitMQService;
 
 
     @PostMapping
@@ -32,11 +31,7 @@ public class PedidoController {
     public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@Valid @RequestBody RequestPedidoDto requestDTO, UriComponentsBuilder uriBuilder) {
         ResponsePedidoDTO responseDTO = pedidoService.salva(requestDTO);
         URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(responseDTO.getId()).toUri();
-        String routingKey = "pedidos.v1.pedidos-criados";
-        PedidoMensagemDto pedidoMensagemDto = new PedidoMensagemDto();
-        pedidoMensagemDto.setId(responseDTO.getId());
-        pedidoMensagemDto.setTotal(responseDTO.getTotal());
-        rabbitTemplate.convertAndSend(routingKey, pedidoMensagemDto);
+        rabbitMQService.enviaMensagem(responseDTO);
         return ResponseEntity.created(uri).body(responseDTO);
     }
 

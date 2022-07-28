@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PedidoMensagemDto {
+public class PagamentoMensagemDto {
     private Long id;
     private Double total;
 
