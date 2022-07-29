@@ -96,7 +96,7 @@ Exemplo de forma completa:
  ___
  
  ## API - Pagamento
- Ao ser feito um post com sucesso na API PEDIDO, será enviado via mensangeria (RabbitMQ) uma mensagem para esse API com os dados do **pedido** `id` e `total` , no qual será salvo em uma outra tabela no banco de dados
+ Ao ser feito um post com sucesso na [API PEDIDO](), será enviado via mensangeria (RabbitMQ) uma mensagem para esse API com os dados do **pedido** `id` e `total` , no qual será salvo em uma outra tabela no banco de dados
  
  ## Requisitos:
  Spring Boot
