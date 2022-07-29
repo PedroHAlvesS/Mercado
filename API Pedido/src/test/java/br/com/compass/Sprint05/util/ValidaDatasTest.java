@@ -13,12 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ValidaDatasTest {
@@ -29,7 +25,7 @@ class ValidaDatasTest {
     private ConverteDatas converteDatas;
 
     @Test
-    @DisplayName("Data válida deveria passar")
+    @DisplayName("Data valida deveria passar")
     void validaDataDeCriacaoDaOferta() {
         // A validação é feita com base na data agora, por isso é criado uma data agora com +2 de hora;
         // para esse teste ficar permante
@@ -51,12 +47,11 @@ class ValidaDatasTest {
     }
 
     @Test
-    @DisplayName("Data inválida deve lançar exception")
+    @DisplayName("Data invalida deve lancar exception")
     void naoDeveriaPermitirDataInvalida() {
-        // A validação é feita com base na data agora, por isso é criado uma data agora com -1 de hora;
+        // A validação é feita com base na data agora, por isso é criado uma data agora com -2 de hora;
         // para esse teste ficar permante
-        LocalDateTime dataMockito = LocalDateTime.now();
-        dataMockito.minusHours(1);
+        LocalDateTime dataMockito = LocalDateTime.now().minusHours(2);
 
 
         RequestItemOfertaDto ofertaDto = new RequestItemOfertaDto();
