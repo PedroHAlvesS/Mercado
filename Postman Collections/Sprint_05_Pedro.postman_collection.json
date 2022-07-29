@@ -1,0 +1,347 @@
+{
+	"info": {
+		"_postman_id": "55354813-51f2-41b5-baa0-1d9115139628",
+		"name": "Sprint_05_Pedro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar Pedido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpf\": \"637.181.470-25\",\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1258.59,\r\n            \"ofertas\": [\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"25/10/2023 10:10:10\"\r\n                },\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"20/10/2023 10:10:10\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1000\r\n        }\r\n        \r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Pedido sem item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpf\": \"637.181.470-25\"\r\n    \r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Pedido sem CPF",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1258.59,\r\n            \"ofertas\": [\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"25/10/2023 10:10:10\"\r\n                },\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"20/10/2023 10:10:10\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1000\r\n        }\r\n        \r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Pedido",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista Todos Os Pedidos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/pedido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido"
+					],
+					"query": [
+						{
+							"key": "cpf",
+							"value": "111.111.111",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "total,desc",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalha o Pedido",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza o Pedido",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpf\": \"768.343.270-96\",\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Carro\",\r\n            \"descricao\": \"xxxx\",\r\n            \"valor\": 500.58,\r\n            \"dataValidade\": \"26/07/2020 14:44:45\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza o Pedido sem informa CPF",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Carro\",\r\n            \"descricao\": \"xxxx\",\r\n            \"valor\": 500.58,\r\n            \"dataValidade\": \"26/07/2020 14:44:45\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza o Item",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Carro\",\r\n    \"descricao\": \"\",\r\n    \"valor\": 500.58,\r\n    \"dataValidade\": \"26/07/2020 14:44:45\"\r\n\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
