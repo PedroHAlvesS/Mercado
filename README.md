@@ -72,15 +72,19 @@ Exemplo de forma completa:
  ### `get:` ->  `http://localhost:8080/api/pedido` 
  Esse endpoint mostra todos os pedidos, ele tem como parametros: 
  
- `cpf` que serve como filtro para mostrar todos pedidos com aquele cpf: `http://localhost:8080/api/pedido?cpf=111.111.111-01`
+ `cpf` que serve como filtro para mostrar todos pedidos com aquele cpf
+ 
+ Ex: `http://localhost:8080/api/pedido?cpf=111.111.111-01`
  
  `sort` que serve para order a busca, podendo ordenar pelo valor total:
  
  De forma **ascedente**
- `http://localhost:8080/api/pedido?sort=total,asc`
+ 
+ Ex: `http://localhost:8080/api/pedido?sort=total,asc`
  
  De forma **descendente**
- `http://localhost:8080/api/pedido?sort=total,desc`
+ 
+ Ex: `http://localhost:8080/api/pedido?sort=total,desc`
  ___
  ### `get:` ->  `http://localhost:8080/api/pedido/{id}` 
  esse endpoint mostra o pedido de forma unitária
