@@ -306,6 +306,44 @@
 			"response": []
 		},
 		{
+			"name": "Atualiza o Pedido com algum campo em branco",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Atualiza o Item",
 			"request": {
 				"method": "PATCH",
