@@ -71,4 +71,37 @@ Exemplo de forma completa:
  ___
  ### `get:` ->  `http://localhost:8080/api/pedido` 
  Esse endpoint mostra todos os pedidos, ele tem como parametros: 
- `cpf` que serve como filtro para mostrar todos pedidos 
+ 
+ `cpf` que serve como filtro para mostrar todos pedidos com aquele cpf: `http://localhost:8080/api/pedido?cpf=111.111.111-01`
+ 
+ `sort` que serve para order a busca, podendo ordenar pelo valor total:
+ 
+ De forma **ascedente**
+ `http://localhost:8080/api/pedido?sort=total,asc`
+ 
+ De forma **descendente**
+ `http://localhost:8080/api/pedido?sort=total,desc`
+ ___
+ ### `get:` ->  `http://localhost:8080/api/pedido/{id}` 
+ esse endpoint mostra o pedido de forma unitária
+ ___
+ ### `delete:` ->  `http://localhost:8080/api/pedido/{id}` 
+ Esse endpoint deleta o pedido, com o id informado
+ ___
+ ### `patch:` ->  `http://localhost:8080/api/pedido/{id}` 
+ Esse endpoint permitir atualizar os mesmo campos do `post`, campos **não informados** ou em **branco** serão desconsiderados
+ __
+ ### `patch:` ->  `http://localhost:8080/api/item/{id}` 
+ Esse endpoint permitir atualizar os mesmo campos do `post`, campos **não informados** ou em **branco** serão desconsiderados
+ ___
+ 
+ ## API - Pagamento
+ Ao ser feito um post com sucesso na API PEDIDO, será enviado via mensangeria (RabbitMQ) uma mensagem para esse API com os dados do **pedido** `id` e `total` , no qual será salvo em uma outra tabela no banco de dados
+ 
+ ## Requisitos:
+ Spring Boot
+ Java v11
+ RabbitMQ
+ MySql
+ 
+ 
