@@ -17,14 +17,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class PedidoServiceTest {
@@ -40,8 +36,6 @@ class PedidoServiceTest {
     @Mock
     private ValidaDatas validaDatas;
 
-    @Mock
-    private Pageable pageable;
 
     @Test
     @DisplayName("Deve salvar um item, além de o total ser a soma do valor de cada item")
