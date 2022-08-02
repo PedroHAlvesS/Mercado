@@ -15,8 +15,12 @@ public class PagamentoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long pedidoId;
+    private String cpf;
     private Double total;
+    private String tipoDoPagamento;
     @CreationTimestamp
     private LocalDateTime dataCriado;
+    @OneToOne(cascade = CascadeType.ALL)
+    private CartaoPagamentoEntity pagamento;
 }
 
