@@ -19,5 +19,7 @@ public class OfertaEntity {
     @CreationTimestamp
     private LocalDateTime dataCriacao;
     private LocalDateTime dataValidade;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private ItemEntity item;
 }
 

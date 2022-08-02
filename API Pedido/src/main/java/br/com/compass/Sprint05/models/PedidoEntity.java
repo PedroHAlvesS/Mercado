@@ -22,11 +22,7 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpf;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "pedidos_itens",
-            joinColumns = {@JoinColumn(name = "pedido_id")},
-            inverseJoinColumns = {@JoinColumn(name = "item_id")})
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ItemEntity> itens;
     private Double total;
     @Enumerated(EnumType.STRING)
@@ -35,6 +31,7 @@ public class PedidoEntity {
     private EnumStatusPagamento statusDoPagamento;
     @Enumerated(EnumType.STRING)
     private EnumTipoDoPagamento tipoDoPagamento;
+    @OneToOne(cascade = CascadeType.ALL)
     private PagamentoEntity pagamentoId;
 }
 
