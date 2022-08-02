@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "item")
+@Table(name = "pedido_itens")
 @Data
 public class ItemEntity {
     @Id
@@ -21,5 +21,6 @@ public class ItemEntity {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataValidade;
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
     private List<OfertaEntity> ofertas;
 }

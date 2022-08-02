@@ -23,6 +23,7 @@ public class PedidoEntity {
     private Long id;
     private String cpf;
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pedido_id")
     private List<ItemEntity> itens;
     private Double total;
     @Enumerated(EnumType.STRING)
@@ -32,6 +33,7 @@ public class PedidoEntity {
     @Enumerated(EnumType.STRING)
     private EnumTipoDoPagamento tipoDoPagamento;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_id")
     private PagamentoEntity pagamento;
 }
 
