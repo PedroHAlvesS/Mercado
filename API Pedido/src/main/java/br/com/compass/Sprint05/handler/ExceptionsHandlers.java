@@ -74,4 +74,36 @@ public class ExceptionsHandlers {
         return ResponseEntity.badRequest().body(exceptionResponseDTO);
     }
 
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TipoDoPagamentoInvalido.class)
+    public ResponseEntity<ExceptionResponseDto> handlerTipoDoPagamentoInvalido(TipoDoPagamentoInvalido exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Tipo de pagamento invalido", "TipoDoPagamento");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MarcaCartaoInvalida.class)
+    public ResponseEntity<ExceptionResponseDto> handlerMarcaCataoInvalida(MarcaCartaoInvalida exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Marca do cartao invalida", "Marca");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TipoDaMoedaInvalida.class)
+    public ResponseEntity<ExceptionResponseDto> handlerTipoDaMoedaInvalida(TipoDaMoedaInvalida exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Tipo de moeda invalida", "Moeda");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(ValorCartaoMaior.class)
+    public ResponseEntity<ExceptionResponseDto> handlerValorCartaoMaior(ValorCartaoMaior exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "Valor");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(ValorCartaoMenor.class)
+    public ResponseEntity<ExceptionResponseDto> handlerValorCartaoMenor(ValorCartaoMenor exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "Valor");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
+    }
+
 }
