@@ -7,7 +7,9 @@ import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
 import br.com.compass.Sprint05.models.PedidoEntity;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
+import br.com.compass.Sprint05.util.ValidaConstants;
 import br.com.compass.Sprint05.util.ValidaDatas;
+import br.com.compass.Sprint05.util.ValidaValorCartao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,23 +31,47 @@ public class PedidoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ValidaConstants validaConstants;
+
+    @Autowired
+    private ValidaValorCartao validaValorCartao;
+
     public ResponsePedidoDTO salva(RequestPedidoDto requestDTO) {
 
-        Double valor = 0.0;
-        for (int i = 0; i < requestDTO.getItens().size(); i++) {
-            valor += requestDTO.getItens().get(i).getValor();
-        }
+        Double valor = calculaTotal(requestDTO);
 
-        for (int i = 0; i < requestDTO.getItens().size(); i++) {
-            validaDatas.validaDataDeCriacaoDaOferta(requestDTO.getItens().get(0));
-        }
+        validaDataOferta(requestDTO);
+
+        validaConstants.validaTipoDoPagamento(requestDTO);
+
+        validaConstants.validaMarcaCartao(requestDTO);
+        validaConstants.validaTipoDeMoeda(requestDTO);
 
         PedidoEntity pedidoEntity = modelMapper.map(requestDTO, PedidoEntity.class);
+
+        validaValorCartao.validaValorDoCartao(valor, requestDTO.getPagamento().getValor());
+
         pedidoEntity.setTotal(valor);
         PedidoEntity saveEntity = pedidoRepository.save(pedidoEntity);
         return modelMapper.map(saveEntity, ResponsePedidoDTO.class);
 
     }
+
+    private void validaDataOferta(RequestPedidoDto requestDTO) {
+        for (int i = 0; i < requestDTO.getItens().size(); i++) {
+            validaDatas.validaDataDeCriacaoDaOferta(requestDTO.getItens().get(i));
+        }
+    }
+
+    private Double calculaTotal(RequestPedidoDto requestDTO) {
+        Double valor = 0.0;
+        for (int i = 0; i < requestDTO.getItens().size(); i++) {
+            valor += requestDTO.getItens().get(i).getValor();
+        }
+        return valor;
+    }
+
     public void deleta(Long id) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
         pedidoRepository.delete(pedidoEntity);

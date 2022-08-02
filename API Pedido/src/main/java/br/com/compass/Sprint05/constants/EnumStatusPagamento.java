@@ -1,5 +1,5 @@
 package br.com.compass.Sprint05.constants;
 
 public enum EnumStatusPagamento {
-    PROCESSADO, REJEITADO, APROVADO
+    PROCESSANDO, REJEITADO, APROVADO
 }

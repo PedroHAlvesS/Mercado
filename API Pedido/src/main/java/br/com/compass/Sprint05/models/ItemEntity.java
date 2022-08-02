@@ -22,6 +22,4 @@ public class ItemEntity {
     private LocalDateTime dataValidade;
     @OneToMany(cascade = CascadeType.ALL)
     private List<OfertaEntity> ofertas;
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    private PedidoEntity pedido;
 }

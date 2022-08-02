@@ -26,13 +26,13 @@ public class PedidoEntity {
     private List<ItemEntity> itens;
     private Double total;
     @Enumerated(EnumType.STRING)
-    private EnumStatus status;
+    private EnumStatus status = EnumStatus.EM_ANDAMENTO;
     @Enumerated(EnumType.STRING)
-    private EnumStatusPagamento statusDoPagamento;
+    private EnumStatusPagamento statusDoPagamento = EnumStatusPagamento.PROCESSANDO;
     @Enumerated(EnumType.STRING)
     private EnumTipoDoPagamento tipoDoPagamento;
     @OneToOne(cascade = CascadeType.ALL)
-    private PagamentoEntity pagamentoId;
+    private PagamentoEntity pagamento;
 }
 
 
