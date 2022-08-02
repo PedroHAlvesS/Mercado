@@ -2,12 +2,15 @@ package br.com.compass.Sprint05.service;
 
 import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
 import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
+import br.com.compass.Sprint05.dto.pagamento.request.RequestPagamentoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.models.PedidoEntity;
 import br.com.compass.Sprint05.repository.PedidoRepository;
+import br.com.compass.Sprint05.util.ValidaConstants;
 import br.com.compass.Sprint05.util.ValidaDatas;
+import br.com.compass.Sprint05.util.ValidaValorCartao;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +39,12 @@ class PedidoServiceTest {
     @Mock
     private ValidaDatas validaDatas;
 
+    @Mock
+    private ValidaConstants validaConstants;
+
+    @Mock
+    private ValidaValorCartao validaValorCartao;
+
 
     @Test
     @DisplayName("Deve salvar um item, além de o total ser a soma do valor de cada item")
@@ -59,6 +68,10 @@ class PedidoServiceTest {
                 .cpf(pedidoDto.getCpf())
                 .id(1L)
                 .build();
+
+        RequestPagamentoDto pagamentoDto = new RequestPagamentoDto();
+
+        pedidoDto.setPagamento(pagamentoDto);
 
 
         Mockito.when(modelMapper.map(pedidoDto, PedidoEntity.class)).thenReturn(pedidoEntity);
