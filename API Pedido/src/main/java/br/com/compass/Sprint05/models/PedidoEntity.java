@@ -1,5 +1,8 @@
 package br.com.compass.Sprint05.models;
 
+import br.com.compass.Sprint05.constants.EnumStatus;
+import br.com.compass.Sprint05.constants.EnumStatusPagamento;
+import br.com.compass.Sprint05.constants.EnumTipoDoPagamento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +22,17 @@ public class PedidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpf;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "pedidos_itens",
-            joinColumns = {@JoinColumn(name = "pedido_id")},
-            inverseJoinColumns = {@JoinColumn(name = "item_id")})
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ItemEntity> itens;
     private Double total;
+    @Enumerated(EnumType.STRING)
+    private EnumStatus status = EnumStatus.EM_ANDAMENTO;
+    @Enumerated(EnumType.STRING)
+    private EnumStatusPagamento statusDoPagamento = EnumStatusPagamento.PROCESSANDO;
+    @Enumerated(EnumType.STRING)
+    private EnumTipoDoPagamento tipoDoPagamento;
+    @OneToOne(cascade = CascadeType.ALL)
+    private PagamentoEntity pagamento;
 }
 
 

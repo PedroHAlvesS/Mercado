@@ -20,10 +20,6 @@ public class ItemEntity {
     @CreationTimestamp
     private LocalDateTime dataCriacao;
     private LocalDateTime dataValidade;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "itens_ofertas",
-            joinColumns = {@JoinColumn(name = "item_id")},
-            inverseJoinColumns = {@JoinColumn(name = "oferta_id")})
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OfertaEntity> ofertas;
 }

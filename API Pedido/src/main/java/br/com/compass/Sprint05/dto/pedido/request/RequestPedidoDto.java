@@ -1,6 +1,7 @@
 package br.com.compass.Sprint05.dto.pedido.request;
 
 import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
+import br.com.compass.Sprint05.dto.pagamento.request.RequestPagamentoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,8 @@ public class RequestPedidoDto {
     @NotNull
     @Size(min = 1)
     private List<@Valid RequestItemDto> itens;
+    @NotBlank
+    private String tipoDoPagamento;
+    @NotNull
+    private @Valid RequestPagamentoDto pagamento;
 }
