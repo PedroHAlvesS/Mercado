@@ -18,8 +18,8 @@ public class PagamentoEntity {
     private String codigoSeguranca;
     @Enumerated(EnumType.STRING)
     private EnumMarcaCartao marca;
-    private int mesExpiracao;
-    private int anoExpiracao;
+    private String mesExpiracao;
+    private String anoExpiracao;
     @Enumerated(EnumType.STRING)
     private EnumMoedaTipo moeda;
     private Double valor;

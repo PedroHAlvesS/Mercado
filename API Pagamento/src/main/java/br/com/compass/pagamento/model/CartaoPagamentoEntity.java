@@ -13,6 +13,7 @@ public class CartaoPagamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long cartaoId;
     private String numeroCartao;
     private String nomeCartao;
     private String codigoSeguranca;

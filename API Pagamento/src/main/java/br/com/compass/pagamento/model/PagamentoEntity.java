@@ -21,6 +21,8 @@ public class PagamentoEntity {
     @CreationTimestamp
     private LocalDateTime dataCriado;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_cartao_id")
     private CartaoPagamentoEntity pagamento;
+    private String status;
 }
 
