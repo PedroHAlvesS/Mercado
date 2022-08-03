@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,6 +21,9 @@ class RabbitMQServiceTest {
     @Mock
     private RabbitTemplate rabbitTemplate;
 
+    @Mock
+    private ModelMapper modelMapper;
+
     @Test
     @DisplayName("Deveria enviar uma mensagem, para a fila correta")
     void enviaMensagem() {
@@ -27,11 +31,12 @@ class RabbitMQServiceTest {
         String routingKey = "pedidos.v1.pedidos-criados";
         PagamentoMensagemDto pagamentoMensagemDto = new PagamentoMensagemDto();
 
-        rabbitMQService.enviaMensagem(responsePedidoDTO);
+        Mockito.when(modelMapper.map(responsePedidoDTO, PagamentoMensagemDto.class)).thenReturn(pagamentoMensagemDto);
 
         rabbitMQService.enviaMensagem(responsePedidoDTO);
 
-        Mockito.verify(rabbitTemplate, Mockito.atLeast(2)).convertAndSend(routingKey, pagamentoMensagemDto);
+
+        Mockito.verify(rabbitTemplate).convertAndSend(routingKey, pagamentoMensagemDto);
 
     }
 }
