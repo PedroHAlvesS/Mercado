@@ -2,7 +2,7 @@ package br.com.compass.pagamento.consumer;
 
 
 import br.com.compass.pagamento.dto.banco.response.ResponseBancoPagamentoDto;
-import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemDto;
+import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemRecebendoDto;
 import br.com.compass.pagamento.service.PagamentoService;
 import br.com.compass.pagamento.service.RabbitMQService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -21,7 +21,7 @@ public class PagamentoConsumer {
     public static final String QUEUE = "pedidos.v1.pedidos-criados";
 
     @RabbitListener(queues = QUEUE)
-    public void consumidor(PagamentoMensagemDto pagamentoDto) {
+    public void consumidor(PagamentoMensagemRecebendoDto pagamentoDto) {
         Long idSalvo = pagamentoService.salva(pagamentoDto);
         ResponseBancoPagamentoDto responseBancoPagamentoDto = pagamentoService.retornoDoBanco(idSalvo, pagamentoDto);
         rabbitMQService.enviarMensagem(responseBancoPagamentoDto, pagamentoDto);

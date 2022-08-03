@@ -6,14 +6,16 @@ import br.com.compass.pagamento.dto.banco.request.RequestCartaoCliente;
 import br.com.compass.pagamento.dto.banco.request.RequestClienteBancoDto;
 import br.com.compass.pagamento.dto.banco.response.ResponseAuthDto;
 import br.com.compass.pagamento.dto.banco.response.ResponseBancoPagamentoDto;
-import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemDto;
-import br.com.compass.pagamento.model.PagamentoEntity;
+import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemRecebendoDto;
+import br.com.compass.pagamento.entities.PagamentoEntity;
 import br.com.compass.pagamento.repository.PagamentoRepository;
 import br.com.compass.pagamento.util.CriptografaNumeroCartao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Optional;
 
 @Service
 public class PagamentoService {
@@ -29,7 +31,7 @@ public class PagamentoService {
     @Autowired
     private CriptografaNumeroCartao criptografaNumeroCartao;
 
-    public Long salva(PagamentoMensagemDto pagamentoDto) {
+    public Long salva(PagamentoMensagemRecebendoDto pagamentoDto) {
         PagamentoEntity pagamentoEntity = modelMapper.map(pagamentoDto, PagamentoEntity.class);
         pagamentoEntity.setPedidoId(pagamentoDto.getId());
         pagamentoEntity.getPagamento().setCartaoId(pagamentoDto.getPagamento().getId());
@@ -39,11 +41,14 @@ public class PagamentoService {
 
     }
 
-    public ResponseBancoPagamentoDto retornoDoBanco(Long id, PagamentoMensagemDto pagamentoDto) {
-        PagamentoEntity pagamentoEntity = pagamentoRepository.findById(id).orElseThrow();
+    public ResponseBancoPagamentoDto retornoDoBanco(Long id, PagamentoMensagemRecebendoDto pagamentoDto) {
+        Optional<PagamentoEntity> pagamentoEntityOptional = pagamentoRepository.findById(id);
 
         ResponseBancoPagamentoDto responseBancoPagamentoDto = solicitaBanco(pagamentoDto);
-        pagamentoEntity.setStatus(responseBancoPagamentoDto.getStatus());
+        if (pagamentoEntityOptional.isPresent()) {
+            pagamentoEntityOptional.get().setStatus(responseBancoPagamentoDto.getStatus());
+            pagamentoRepository.save(pagamentoEntityOptional.get());
+        }
 
         return responseBancoPagamentoDto;
 
@@ -51,41 +56,40 @@ public class PagamentoService {
 
     private ResponseAuthDto autentica() {
         RequestAuthDto requestAuthDto = new RequestAuthDto();
-        requestAuthDto.setClientId("client_id_pedro");
-        requestAuthDto.setApiKey("adde23eb-2bc3-437f-bdba-f8f96f8c4014");
 
-        String uri = "https://pb-getway-payment.herokuapp.com/v1/auth";
+        String urlAutentica = "https://pb-getway-payment.herokuapp.com/v1/auth";
 
         return webClientBuilder.build()
                 .post()
-                .uri(uri)
+                .uri(urlAutentica)
                 .bodyValue(requestAuthDto)
                 .retrieve()
                 .bodyToMono(ResponseAuthDto.class)
                 .block();
     }
 
-    private ResponseBancoPagamentoDto solicitaBanco(PagamentoMensagemDto pagamentoMensagemDto) {
+    private ResponseBancoPagamentoDto solicitaBanco(PagamentoMensagemRecebendoDto pagamentoMensagemDto) {
+        String urlBancoPagamento = "https://pb-getway-payment.herokuapp.com/v1/payments/credit-card";
 
         RequestBancoPagamentoDto bancoPagamentoDto = buildBancoPagamento(pagamentoMensagemDto);
 
-        String url = "https://pb-getway-payment.herokuapp.com/v1/payments/credit-card";
 
 
         ResponseAuthDto authDto = autentica();
 
         return webClientBuilder.build()
                 .post()
-                .uri(url)
+                .uri(urlBancoPagamento)
                 .bodyValue(bancoPagamentoDto)
                 .headers(h -> h.setBearerAuth(authDto.getAcessToken()))
                 .retrieve()
                 .bodyToMono(ResponseBancoPagamentoDto.class)
                 .block();
 
+
     }
 
-    private RequestBancoPagamentoDto buildBancoPagamento(PagamentoMensagemDto pagamentoMensagemDto) {
+    private RequestBancoPagamentoDto buildBancoPagamento(PagamentoMensagemRecebendoDto pagamentoMensagemDto) {
         RequestBancoPagamentoDto bancoPagamentoDto = new RequestBancoPagamentoDto();
         RequestClienteBancoDto customer = new RequestClienteBancoDto();
         bancoPagamentoDto.setCustomer(customer);

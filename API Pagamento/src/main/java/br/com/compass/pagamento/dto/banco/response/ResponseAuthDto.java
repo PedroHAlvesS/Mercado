@@ -12,5 +12,4 @@ public class ResponseAuthDto {
     @JsonProperty("expires_in")
     private String expiresIn;
 
-
 }

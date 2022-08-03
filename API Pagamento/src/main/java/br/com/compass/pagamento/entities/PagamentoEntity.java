@@ -1,4 +1,4 @@
-package br.com.compass.pagamento.model;
+package br.com.compass.pagamento.entities;
 
 
 import lombok.Data;

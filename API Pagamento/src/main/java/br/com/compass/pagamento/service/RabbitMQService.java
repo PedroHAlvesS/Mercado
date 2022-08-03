@@ -1,7 +1,7 @@
 package br.com.compass.pagamento.service;
 
 import br.com.compass.pagamento.dto.banco.response.ResponseBancoPagamentoDto;
-import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemDto;
+import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemRecebendoDto;
 import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemEnviandoDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ public class RabbitMQService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void enviarMensagem(ResponseBancoPagamentoDto responseBancoPagamentoDto, PagamentoMensagemDto pagamentoMensagemDto) {
+    public void enviarMensagem(ResponseBancoPagamentoDto responseBancoPagamentoDto, PagamentoMensagemRecebendoDto pagamentoMensagemDto) {
         String routingKey = "pagamentos.v1.pagamentos-criados";
         PagamentoMensagemEnviandoDto mensagemEnviandoDto = new PagamentoMensagemEnviandoDto();
         mensagemEnviandoDto.setMensagem(responseBancoPagamentoDto.getAuthorization().getReasonMessage());

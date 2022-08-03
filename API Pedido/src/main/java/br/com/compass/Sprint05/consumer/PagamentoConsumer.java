@@ -17,7 +17,7 @@ public class PagamentoConsumer {
     @Autowired
     private PedidoRepository pedidoRepository;
 
-    public static final String QUEUE = "pagamentos.v1.pagamentos-criados";
+    public static final String QUEUE = "pagamentos.v1.pagamentos-processados";
 
     @RabbitListener(queues = QUEUE)
     public void consumidor(PagamentoMensagemRecebendoDto pagamentoDto) {

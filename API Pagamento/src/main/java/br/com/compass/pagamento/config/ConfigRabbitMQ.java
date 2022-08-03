@@ -13,7 +13,7 @@ public class ConfigRabbitMQ {
 
     @Bean
     public Queue queue() {
-        return new Queue("pagamentos.v1.pagamentos-criados");
+        return new Queue("pagamentos.v1.pagamentos-processados");
     }
 
     @Bean
