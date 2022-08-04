@@ -1,7 +1,7 @@
-package br.com.compass.Sprint05.dto.rabbitMQ;
+package br.com.compass.pagamento.dto.rabbitMQ;
 
 
-import br.com.compass.Sprint05.dto.pagamento.response.ResponsePagamentoDto;
+import br.com.compass.pagamento.dto.pagamento.ResponsePagamentoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PagamentoMensagemDto {
+public class PagamentoMensagemRecebendoDto {
     private Long id;
     private Double total;
     private String cpf;

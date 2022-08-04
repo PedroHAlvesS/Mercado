@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.dto;
+package br.com.compass.Sprint05.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

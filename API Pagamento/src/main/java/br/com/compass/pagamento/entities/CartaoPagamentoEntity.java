@@ -1,10 +1,19 @@
-package br.com.compass.Sprint05.dto.pagamento.response;
+package br.com.compass.pagamento.entities;
+
 
 import lombok.Data;
 
+import javax.persistence.*;
+
+@Entity
 @Data
-public class ResponsePagamentoDto {
+@Table(name = "pagamento_cartao_dados")
+public class CartaoPagamentoEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long cartaoId;
     private String numeroCartao;
     private String nomeCartao;
     private String codigoSeguranca;

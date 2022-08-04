@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.models;
+package br.com.compass.Sprint05.entities;
 
 import br.com.compass.Sprint05.constants.EnumMarcaCartao;
 import br.com.compass.Sprint05.constants.EnumMoedaTipo;
@@ -18,8 +18,8 @@ public class PagamentoEntity {
     private String codigoSeguranca;
     @Enumerated(EnumType.STRING)
     private EnumMarcaCartao marca;
-    private int mesExpiracao;
-    private int anoExpiracao;
+    private String mesExpiracao;
+    private String anoExpiracao;
     @Enumerated(EnumType.STRING)
     private EnumMoedaTipo moeda;
     private Double valor;

@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.dto.pagamento.response;
+package br.com.compass.pagamento.dto.pagamento;
 
 import lombok.Data;
 
