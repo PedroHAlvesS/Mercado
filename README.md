@@ -13,7 +13,7 @@ Um exemplo de pedido:
     
     "itens": [],
     
-    "tipoDoPagamento" : "",
+    "tipoDoPagamento" : "CREDIT_CARD",
     
     "pagamento": {
         "numeroCartao": "xxxx xxxx xxxx",
@@ -79,7 +79,7 @@ Exemplo de forma completa:
         }
         
     ],
-    tipoDoPagamento" : "CREDIT_CARD",
+    "tipoDoPagamento" : "CREDIT_CARD",
     "pagamento": {
         "numeroCartao": "xxxxxxxxxx",
         "nomeCartao": "yyyyyyyy",
