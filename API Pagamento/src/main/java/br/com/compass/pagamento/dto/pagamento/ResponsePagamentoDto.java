@@ -9,8 +9,8 @@ public class ResponsePagamentoDto {
     private String nomeCartao;
     private String codigoSeguranca;
     private String marca;
-    private int mesExpiracao;
-    private int anoExpiracao;
+    private String mesExpiracao;
+    private String anoExpiracao;
     private String moeda;
     private Double valor;
 }

@@ -1,4 +1,4 @@
-package br.com.compass.pagamento.model;
+package br.com.compass.pagamento.entities;
 
 
 import lombok.Data;
@@ -21,6 +21,8 @@ public class PagamentoEntity {
     @CreationTimestamp
     private LocalDateTime dataCriado;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_cartao_id")
     private CartaoPagamentoEntity pagamento;
+    private String status;
 }
 

@@ -4,7 +4,7 @@ import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
-import br.com.compass.Sprint05.models.PedidoEntity;
+import br.com.compass.Sprint05.entities.PedidoEntity;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import br.com.compass.Sprint05.util.ValidaConstants;

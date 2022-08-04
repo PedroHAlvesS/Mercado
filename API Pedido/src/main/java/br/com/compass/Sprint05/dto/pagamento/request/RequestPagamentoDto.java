@@ -17,11 +17,10 @@ public class RequestPagamentoDto {
     private String codigoSeguranca;
     @NotBlank
     private String marca;
-    @Max(value = 12)
-    @Min(value = 1)
-    private int mesExpiracao;
-    @Positive
-    private int anoExpiracao;
+    @NotBlank
+    private String mesExpiracao;
+    @NotBlank
+    private String anoExpiracao;
     @NotBlank
     private String moeda;
     @Positive

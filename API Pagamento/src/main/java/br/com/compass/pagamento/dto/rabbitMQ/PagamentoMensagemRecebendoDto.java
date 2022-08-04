@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PagamentoMensagemDto {
+public class PagamentoMensagemRecebendoDto {
     private Long id;
     private Double total;
     private String cpf;

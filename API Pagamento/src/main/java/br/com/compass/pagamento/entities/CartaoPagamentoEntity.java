@@ -1,4 +1,4 @@
-package br.com.compass.pagamento.model;
+package br.com.compass.pagamento.entities;
 
 
 import lombok.Data;
@@ -13,12 +13,13 @@ public class CartaoPagamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long cartaoId;
     private String numeroCartao;
     private String nomeCartao;
     private String codigoSeguranca;
     private String marca;
-    private int mesExpiracao;
-    private int anoExpiracao;
+    private String mesExpiracao;
+    private String anoExpiracao;
     private String moeda;
     private Double valor;
 }

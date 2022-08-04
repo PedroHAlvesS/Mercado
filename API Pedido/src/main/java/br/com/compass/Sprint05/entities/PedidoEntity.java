@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.models;
+package br.com.compass.Sprint05.entities;
 
 import br.com.compass.Sprint05.constants.EnumStatus;
 import br.com.compass.Sprint05.constants.EnumStatusPagamento;
