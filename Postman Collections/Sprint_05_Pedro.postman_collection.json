@@ -25,7 +25,44 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"cpf\": \"637.181.470-25\",\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1258.59,\r\n            \"ofertas\": [\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"25/10/2023 10:10:10\"\r\n                },\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"20/10/2023 10:10:10\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1000\r\n        }\r\n        \r\n    ]\r\n}"
+					"raw": "{\r\n    \"cpf\": \"637.181.470-25\",\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1258.59,\r\n            \"ofertas\": [\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"25/10/2023 10:10:10\"\r\n                },\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"20/10/2023 10:10:10\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1000,\r\n            \"ofertas\": [\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"25/10/2023 10:10:10\"\r\n                }]\r\n        } \r\n    ],\r\n    \"tipoDoPagamento\" : \"PIX\",\r\n    \"pagamento\": {\r\n        \"numeroCartao\": \"xxxxxxxxxx\",\r\n        \"nomeCartao\": \"yyyyyyyy\",\r\n        \"codigoSeguranca\": \"000\",\r\n        \"marca\": \"VISA\",\r\n        \"mesExpiracao\": 12,\r\n        \"anoExpiracao\": 2022,\r\n        \"moeda\": \"BRL\",\r\n        \"valor\": 2258.59\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/pedido",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Pedido Dentro do limite",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpf\": \"637.181.470-25\",\r\n    \"itens\": [\r\n        {\r\n            \"nome\": \"Celular\",\r\n            \"descricao\": \"Aparelho Eletronico\",\r\n            \"dataValidade\": \"27/10/2000 12:10:22\",\r\n            \"valor\": 1258.59,\r\n            \"ofertas\": [\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"25/10/2023 10:10:10\"\r\n                },\r\n                {\r\n                    \"nome\": \"imperdivel\",\r\n                    \"descricao\": \"Oferta unica\",\r\n                    \"desconto\" : 50,\r\n                    \"dataValidade\": \"20/10/2023 10:10:10\"\r\n                }\r\n            ]\r\n        }  \r\n    ],\r\n    \"tipoDoPagamento\" : \"PIX\",\r\n    \"pagamento\": {\r\n        \"numeroCartao\": \"xxxxxxxxxx\",\r\n        \"nomeCartao\": \"yyyyyyyy\",\r\n        \"codigoSeguranca\": \"000\",\r\n        \"marca\": \"VISA\",\r\n        \"mesExpiracao\": 12,\r\n        \"anoExpiracao\": 2022,\r\n        \"moeda\": \"BRL\",\r\n        \"valor\": 1258.59\r\n    }\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/pedido",
@@ -376,6 +413,103 @@
 						"api",
 						"item",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recupera Token Auth",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJHZXR3YXkgcGFnQmFuayBQQiIsInN1YiI6IjJlZjk3ZmYyLTFkZjctNDcxYS05YjZhLThhMjk2NzkwYWE2OSIsImlhdCI6MTY1OTQ2NjI0OCwiZXhwIjoxNjU5NDY2NDI4fQ.1eoTRNZurlqA4RuuzFtwnNnT5jiYUJ_WrRCFvpuCHWk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_id\": \"client_id_pedro\",\r\n    \"api_key\": \"adde23eb-2bc3-437f-bdba-f8f96f8c4014\"\r\n}"
+				},
+				"url": {
+					"raw": "https://pb-getway-payment.herokuapp.com/v1/auth",
+					"protocol": "https",
+					"host": [
+						"pb-getway-payment",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"v1",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Solicitação de pagamento",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJHZXR3YXkgcGFnQmFuayBQQiIsInN1YiI6IjJlZjk3ZmYyLTFkZjctNDcxYS05YjZhLThhMjk2NzkwYWE2OSIsImlhdCI6MTY1OTU3MDc4NiwiZXhwIjoxNjU5NTcwOTY2fQ.O85buPDPUXGOgv5tMfk2c8BQ5hsrTmiEtoJ_ueZdcmA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"seller_id\": \"2ef97ff2-1df7-471a-9b6a-8a296790aa69\",\r\n    \"customer\": {\r\n        \"document_type\":\"CPF\",\r\n        \"document_number\":\"12345678912\"\r\n    },\r\n    \"payment_type\":\"CREDIT_CARD\",\r\n    \"currency\":\"BRL\",\r\n    \"transaction_amount\":20000,\r\n    \"card\":{\r\n        \"number_token\": \"teste_Cartao\",\r\n        \"cardholder_name\": \"JOSE\",\r\n        \"security_code\":\"123\",\r\n        \"brand\":\"MASTERCARD\",\r\n        \"expiration_month\":\"12\",\r\n        \"expiration_year\":\"2022\"\r\n    }\r\n\r\n}"
+				},
+				"url": {
+					"raw": "https://pb-getway-payment.herokuapp.com/v1/payments/credit-card",
+					"protocol": "https",
+					"host": [
+						"pb-getway-payment",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"v1",
+						"payments",
+						"credit-card"
 					]
 				}
 			},
