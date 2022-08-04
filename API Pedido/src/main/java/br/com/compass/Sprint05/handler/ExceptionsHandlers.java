@@ -105,11 +105,11 @@ public class ExceptionsHandlers {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
     }
 
-    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(PedidoJaProcessado.class)
     public ResponseEntity<ExceptionResponseDto> handlerPedidoJaPagoException(PedidoJaProcessado exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Esse pedido já foi processado, e nao pode ser deletado", "Status Pagamento");
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(exceptionResponseDTO);
     }
 
 }
