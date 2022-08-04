@@ -4,14 +4,27 @@
 A api de criação de pedidos possuí os seguintes endpoints:
 
 ### `Post:` ->  `http://localhost:8080/api/pedido` 
-Para a criação de um pedido é necessário informa o CPF **válido** e uma lista de itens sendo obrigatório pelo menos 1 item.
+Para a criação de um pedido é necessário informa o CPF **válido**,  uma lista de itens sendo obrigatório pelo menos 1 item, o tipo de pagamento dentro da opção (PIX, CREDIT_CARD, BANK_PAYMENT_SLIP), um objeto pagamento com os dados conforme o exemplo:
 Um exemplo de pedido: 
 
 ``` 
 {
     "cpf": "xxx.yyy.zzz-00",
     
-    "itens": []
+    "itens": [],
+    
+    "tipoDoPagamento" : "CREDIT_CARD",
+    
+    "pagamento": {
+        "numeroCartao": "xxxx xxxx xxxx",
+        "nomeCartao": "yyyyyyyy",
+        "codigoSeguranca": "000",
+        "marca": "VISA",
+        "mesExpiracao": "12",
+        "anoExpiracao": "2022",
+        "moeda": "BRL",
+        "valor": 2258.59
+    }
     
 }
 ```
@@ -65,7 +78,18 @@ Exemplo de forma completa:
             "valor": 1000
         }
         
-    ]
+    ],
+    "tipoDoPagamento" : "CREDIT_CARD",
+    "pagamento": {
+        "numeroCartao": "xxxxxxxxxx",
+        "nomeCartao": "yyyyyyyy",
+        "codigoSeguranca": "000",
+        "marca": "VISA",
+        "mesExpiracao": 12,
+        "anoExpiracao": 2022,
+        "moeda": "BRL",
+        "valor": 2258.59
+    }
 }
 ```
  ___
