@@ -14,7 +14,7 @@ public class RabbitMQService {
     private RabbitTemplate rabbitTemplate;
 
     public void enviarMensagem(ResponseBancoPagamentoDto responseBancoPagamentoDto, PagamentoMensagemRecebendoDto pagamentoMensagemDto) {
-        String routingKey = "pagamentos.v1.pagamentos-criados";
+        String routingKey = "pagamentos.v1.pagamentos-processados";
         PagamentoMensagemEnviandoDto mensagemEnviandoDto = new PagamentoMensagemEnviandoDto();
         mensagemEnviandoDto.setMensagem(responseBancoPagamentoDto.getAuthorization().getReasonMessage());
         mensagemEnviandoDto.setStatus(responseBancoPagamentoDto.getStatus());

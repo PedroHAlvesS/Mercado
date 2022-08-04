@@ -1,6 +1,5 @@
 package br.com.compass.pagamento.service;
 
-import br.com.compass.pagamento.dto.banco.request.RequestAuthDto;
 import br.com.compass.pagamento.dto.banco.request.RequestBancoPagamentoDto;
 import br.com.compass.pagamento.dto.banco.request.RequestCartaoCliente;
 import br.com.compass.pagamento.dto.banco.request.RequestClienteBancoDto;
@@ -8,10 +7,13 @@ import br.com.compass.pagamento.dto.banco.response.ResponseAuthDto;
 import br.com.compass.pagamento.dto.banco.response.ResponseBancoPagamentoDto;
 import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemRecebendoDto;
 import br.com.compass.pagamento.entities.PagamentoEntity;
+import br.com.compass.pagamento.exceptions.NaoAutenticadoException;
 import br.com.compass.pagamento.repository.PagamentoRepository;
+import br.com.compass.pagamento.util.AutenticaBanco;
 import br.com.compass.pagamento.util.CriptografaNumeroCartao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Service
 public class PagamentoService {
+
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
@@ -30,6 +33,11 @@ public class PagamentoService {
 
     @Autowired
     private CriptografaNumeroCartao criptografaNumeroCartao;
+
+    @Autowired
+    private AutenticaBanco autenticaBanco;
+
+    private String getAuthBearerToken = "teste";
 
     public Long salva(PagamentoMensagemRecebendoDto pagamentoDto) {
         PagamentoEntity pagamentoEntity = modelMapper.map(pagamentoDto, PagamentoEntity.class);
@@ -54,37 +62,41 @@ public class PagamentoService {
 
     }
 
-    private ResponseAuthDto autentica() {
-        RequestAuthDto requestAuthDto = new RequestAuthDto();
 
-        String urlAutentica = "https://pb-getway-payment.herokuapp.com/v1/auth";
-
-        return webClientBuilder.build()
-                .post()
-                .uri(urlAutentica)
-                .bodyValue(requestAuthDto)
-                .retrieve()
-                .bodyToMono(ResponseAuthDto.class)
-                .block();
-    }
 
     private ResponseBancoPagamentoDto solicitaBanco(PagamentoMensagemRecebendoDto pagamentoMensagemDto) {
         String urlBancoPagamento = "https://pb-getway-payment.herokuapp.com/v1/payments/credit-card";
 
         RequestBancoPagamentoDto bancoPagamentoDto = buildBancoPagamento(pagamentoMensagemDto);
+        ResponseBancoPagamentoDto responseBancoPagamentoDto;
 
 
+        try {
+            responseBancoPagamentoDto = webClientBuilder.build()
+                    .post()
+                    .uri(urlBancoPagamento)
+                    .bodyValue(bancoPagamentoDto)
+                    .headers(h -> h.setBearerAuth(getAuthBearerToken))
+                    .retrieve()
+                    .onStatus(HttpStatus.FORBIDDEN::equals, clientResponses -> clientResponses.bodyToMono(String.class).map(NaoAutenticadoException::new))
+                    .bodyToMono(ResponseBancoPagamentoDto.class)
+                    .block();
+        } catch (NaoAutenticadoException naoAutenticadoException) {
 
-        ResponseAuthDto authDto = autentica();
+            ResponseAuthDto authDto = autenticaBanco.autentica();
+            this.getAuthBearerToken = authDto.getAcessToken();
 
-        return webClientBuilder.build()
-                .post()
-                .uri(urlBancoPagamento)
-                .bodyValue(bancoPagamentoDto)
-                .headers(h -> h.setBearerAuth(authDto.getAcessToken()))
-                .retrieve()
-                .bodyToMono(ResponseBancoPagamentoDto.class)
-                .block();
+            responseBancoPagamentoDto = webClientBuilder.build()
+                    .post()
+                    .uri(urlBancoPagamento)
+                    .bodyValue(bancoPagamentoDto)
+                    .headers(h -> h.setBearerAuth(getAuthBearerToken))
+                    .retrieve()
+                    .bodyToMono(ResponseBancoPagamentoDto.class)
+                    .block();
+        }
+
+        return responseBancoPagamentoDto;
 
 
     }
