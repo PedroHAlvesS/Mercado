@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.consumer;
+package br.com.compass.Sprint05.rabbitMQ.consumer;
 
 import br.com.compass.Sprint05.constants.EnumStatus;
 import br.com.compass.Sprint05.constants.EnumStatusPagamento;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PagamentoConsumer {
+public class PedidoPagamentoConsumer {
 
     @Autowired
     private PedidoRepository pedidoRepository;

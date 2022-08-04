@@ -1,4 +1,4 @@
-package br.com.compass.pagamento.service;
+package br.com.compass.pagamento.rabbitMQ.producer;
 
 import br.com.compass.pagamento.dto.banco.response.ResponseBancoPagamentoDto;
 import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemEnviandoDto;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RabbitMQService {
+public class PedidoPagamentoProducer {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;

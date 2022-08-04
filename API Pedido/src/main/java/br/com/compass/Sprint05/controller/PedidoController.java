@@ -4,7 +4,7 @@ import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.service.PedidoService;
-import br.com.compass.Sprint05.service.RabbitMQService;
+import br.com.compass.Sprint05.rabbitMQ.producer.PedidoPagamentoProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @Autowired
-    private RabbitMQService rabbitMQService;
+    private PedidoPagamentoProducer pedidoPagamentoProducer;
 
 
     @PostMapping
@@ -31,7 +31,7 @@ public class PedidoController {
     public ResponseEntity<ResponsePedidoDTO> cadastraPedido(@Valid @RequestBody RequestPedidoDto requestDTO, UriComponentsBuilder uriBuilder) {
         ResponsePedidoDTO responseDTO = pedidoService.salva(requestDTO);
         URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(responseDTO.getId()).toUri();
-        rabbitMQService.enviaMensagem(responseDTO);
+        pedidoPagamentoProducer.enviaMensagem(responseDTO);
         return ResponseEntity.created(uri).body(responseDTO);
     }
 
