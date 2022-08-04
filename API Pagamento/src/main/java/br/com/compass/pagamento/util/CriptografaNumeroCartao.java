@@ -1,6 +1,5 @@
 package br.com.compass.pagamento.util;
 
-import org.junit.platform.commons.function.Try;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;

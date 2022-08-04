@@ -6,11 +6,8 @@ import br.com.compass.Sprint05.exceptions.MarcaCartaoInvalida;
 import br.com.compass.Sprint05.exceptions.TipoDaMoedaInvalida;
 import br.com.compass.Sprint05.exceptions.TipoDoPagamentoInvalido;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ValidaConstantsTest {
 

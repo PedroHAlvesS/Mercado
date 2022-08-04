@@ -1,5 +1,6 @@
 package br.com.compass.Sprint05.dto.item.response;
 
+import br.com.compass.Sprint05.dto.oferta.response.ResponseItemOfertaDto;
 import lombok.Data;
 
 import java.util.List;

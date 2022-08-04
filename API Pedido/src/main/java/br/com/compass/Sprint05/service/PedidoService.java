@@ -1,10 +1,12 @@
 package br.com.compass.Sprint05.service;
 
+import br.com.compass.Sprint05.constants.EnumStatusPagamento;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
-import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
 import br.com.compass.Sprint05.entities.PedidoEntity;
+import br.com.compass.Sprint05.exceptions.PedidoJaProcessado;
+import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import br.com.compass.Sprint05.util.ValidaConstants;
@@ -74,7 +76,12 @@ public class PedidoService {
 
     public void deleta(Long id) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);
-        pedidoRepository.delete(pedidoEntity);
+        if (pedidoEntity.getStatusDoPagamento().equals(EnumStatusPagamento.PROCESSANDO)) {
+            pedidoRepository.delete(pedidoEntity);
+        } else if (pedidoEntity.getStatusDoPagamento().equals(EnumStatusPagamento.REJEITADO) || pedidoEntity.getStatusDoPagamento().equals(EnumStatusPagamento.APROVADO)){
+            throw new PedidoJaProcessado();
+        }
+
     }
 
     public Page<ResponsePedidoDTO> lista(String cpf, Pageable pageable) {

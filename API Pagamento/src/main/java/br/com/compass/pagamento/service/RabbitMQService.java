@@ -1,8 +1,8 @@
 package br.com.compass.pagamento.service;
 
 import br.com.compass.pagamento.dto.banco.response.ResponseBancoPagamentoDto;
-import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemRecebendoDto;
 import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemEnviandoDto;
+import br.com.compass.pagamento.dto.rabbitMQ.PagamentoMensagemRecebendoDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

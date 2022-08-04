@@ -1,6 +1,6 @@
-package br.com.compass.Sprint05.dto.item.response;
+package br.com.compass.Sprint05.dto.oferta.response;
 
-import br.com.compass.Sprint05.dto.item.request.RequestItemOfertaDto;
+import br.com.compass.Sprint05.dto.oferta.request.RequestItemOfertaDto;
 import lombok.Data;
 
 @Data
