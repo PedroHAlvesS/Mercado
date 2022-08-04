@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.service;
+package br.com.compass.Sprint05.rabbitMQ.producer;
 
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.dto.rabbitMQ.PagamentoMensagemDto;
@@ -13,10 +13,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @ExtendWith(MockitoExtension.class)
-class RabbitMQServiceTest {
+class PedidoPagamentoProducerTest {
 
     @InjectMocks
-    private RabbitMQService rabbitMQService;
+    private PedidoPagamentoProducer pedidoPagamentoProducer;
 
     @Mock
     private RabbitTemplate rabbitTemplate;
@@ -33,7 +33,7 @@ class RabbitMQServiceTest {
 
         Mockito.when(modelMapper.map(responsePedidoDTO, PagamentoMensagemDto.class)).thenReturn(pagamentoMensagemDto);
 
-        rabbitMQService.enviaMensagem(responsePedidoDTO);
+        pedidoPagamentoProducer.enviaMensagem(responsePedidoDTO);
 
 
         Mockito.verify(rabbitTemplate).convertAndSend(routingKey, pagamentoMensagemDto);

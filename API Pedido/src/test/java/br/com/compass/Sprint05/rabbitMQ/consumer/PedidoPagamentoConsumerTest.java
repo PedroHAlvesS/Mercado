@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.consumer;
+package br.com.compass.Sprint05.rabbitMQ.consumer;
 
 import br.com.compass.Sprint05.constants.EnumStatus;
 import br.com.compass.Sprint05.constants.EnumStatusPagamento;
@@ -19,10 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-class PagamentoConsumerTest {
+class PedidoPagamentoConsumerTest {
 
     @InjectMocks
-    private PagamentoConsumer pagamentoConsumer;
+    private PedidoPagamentoConsumer pedidoPagamentoConsumer;
 
     @Mock
     private PedidoRepository pedidoRepository;
@@ -39,7 +39,7 @@ class PagamentoConsumerTest {
 
         Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedidoEntity));
 
-        pagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto);
+        pedidoPagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto);
 
         Mockito.verify(pedidoRepository).save(pedidoEntity);
         Assertions.assertEquals(pedidoEntity.getStatus(), EnumStatus.FINALIZADO);
@@ -58,7 +58,7 @@ class PagamentoConsumerTest {
 
         Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedidoEntity));
 
-        pagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto);
+        pedidoPagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto);
 
         Mockito.verify(pedidoRepository).save(pedidoEntity);
         Assertions.assertEquals(pedidoEntity.getStatus(), EnumStatus.CANCELADO);
@@ -71,7 +71,7 @@ class PagamentoConsumerTest {
         PagamentoMensagemRecebendoDto pagamentoMensagemRecebendoDto = new PagamentoMensagemRecebendoDto();
         pagamentoMensagemRecebendoDto.setPedidoId(20L);
 
-        Assertions.assertThrows(PedidoNaoEncontrado.class, () -> pagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto));
+        Assertions.assertThrows(PedidoNaoEncontrado.class, () -> pedidoPagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto));
 
     }
 
@@ -85,7 +85,7 @@ class PagamentoConsumerTest {
         PedidoEntity pedidoEntity = new PedidoEntity();
         Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedidoEntity));
 
-        Assertions.assertThrows(MensagemRecebidaErro.class, () -> pagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto));
+        Assertions.assertThrows(MensagemRecebidaErro.class, () -> pedidoPagamentoConsumer.consumidor(pagamentoMensagemRecebendoDto));
 
     }
 
