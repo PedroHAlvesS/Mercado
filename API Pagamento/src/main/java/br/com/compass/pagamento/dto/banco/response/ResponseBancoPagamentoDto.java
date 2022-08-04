@@ -22,4 +22,5 @@ public class ResponseBancoPagamentoDto {
     @JsonProperty("authorization")
     private ResponseAuthPagamentoDto authorization;
 
+
 }
