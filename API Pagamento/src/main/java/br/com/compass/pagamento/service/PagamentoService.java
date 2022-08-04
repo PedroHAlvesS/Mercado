@@ -41,6 +41,9 @@ public class PagamentoService {
 
     public Long salva(PagamentoMensagemRecebendoDto pagamentoDto) {
         PagamentoEntity pagamentoEntity = modelMapper.map(pagamentoDto, PagamentoEntity.class);
+        // fix problema com o model mapper que ta com nome do campo igual
+        pagamentoEntity.setId(null);
+        pagamentoEntity.getPagamento().setId(null);
         pagamentoEntity.setPedidoId(pagamentoDto.getId());
         pagamentoEntity.getPagamento().setCartaoId(pagamentoDto.getPagamento().getId());
 
