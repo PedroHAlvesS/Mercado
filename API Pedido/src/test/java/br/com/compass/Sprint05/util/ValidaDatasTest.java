@@ -1,7 +1,7 @@
 package br.com.compass.Sprint05.util;
 
 import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
-import br.com.compass.Sprint05.dto.item.request.RequestItemOfertaDto;
+import br.com.compass.Sprint05.dto.oferta.request.RequestItemOfertaDto;
 import br.com.compass.Sprint05.exceptions.DataValidadeInvalida;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,5 +1,6 @@
 package br.com.compass.Sprint05.dto.item.request;
 
+import br.com.compass.Sprint05.dto.oferta.request.RequestItemOfertaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package br.com.compass.Sprint05.dto.item.request;
+package br.com.compass.Sprint05.dto.oferta.request;
 
 import lombok.Data;
 

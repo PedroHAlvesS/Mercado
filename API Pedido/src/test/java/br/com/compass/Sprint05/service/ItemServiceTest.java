@@ -1,8 +1,8 @@
 package br.com.compass.Sprint05.service;
 
 import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
-import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
 import br.com.compass.Sprint05.entities.ItemEntity;
+import br.com.compass.Sprint05.exceptions.ItemNaoEncontrado;
 import br.com.compass.Sprint05.repository.ItemRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

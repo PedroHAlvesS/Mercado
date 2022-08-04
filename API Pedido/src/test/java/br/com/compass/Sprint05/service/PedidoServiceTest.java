@@ -1,5 +1,6 @@
 package br.com.compass.Sprint05.service;
 
+import br.com.compass.Sprint05.constants.EnumStatusPagamento;
 import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
 import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
 import br.com.compass.Sprint05.dto.pagamento.request.RequestPagamentoDto;
@@ -7,6 +8,7 @@ import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.entities.PedidoEntity;
+import br.com.compass.Sprint05.exceptions.PedidoJaProcessado;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import br.com.compass.Sprint05.util.ValidaConstants;
 import br.com.compass.Sprint05.util.ValidaDatas;
@@ -84,16 +86,30 @@ class PedidoServiceTest {
     }
 
     @Test
-    @DisplayName("Deveria deletar com sucesso um pedido já criado")
+    @DisplayName("Deveria deletar com sucesso um pedido em processando")
     void deveriaDeletarComSucesso() {
         PedidoEntity pedidoEntity = new PedidoEntity();
-        Mockito.when(pedidoRepository.findById(1l)).thenReturn(Optional.of(pedidoEntity));
+        Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedidoEntity));
 
-        pedidoService.deleta(1l);
+        pedidoService.deleta(1L);
         Mockito.verify(pedidoRepository).delete(pedidoEntity);
-
     }
 
+    @Test
+    @DisplayName("Nao deveria deletar um pedido ja processado (Aprovado ou Rejeitado)")
+    void naoDeveriaDeletarUmPedidoQuandoSeuStatusPagamentoForAprovadoOuRejeitado() {
+        PedidoEntity pedidoEntityRejeitado = new PedidoEntity();
+        pedidoEntityRejeitado.setStatusDoPagamento(EnumStatusPagamento.REJEITADO);
+        PedidoEntity pedidoEntityAprovado = new PedidoEntity();
+        pedidoEntityAprovado.setStatusDoPagamento(EnumStatusPagamento.APROVADO);
+
+        Mockito.when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedidoEntityRejeitado));
+        Mockito.when(pedidoRepository.findById(2L)).thenReturn(Optional.of(pedidoEntityAprovado));
+
+        Assertions.assertThrows(PedidoJaProcessado.class, () -> pedidoService.deleta(1L));
+        Assertions.assertThrows(PedidoJaProcessado.class, () -> pedidoService.deleta(2L));
+
+    }
     @Test
     @DisplayName("Deveria detalhar um pedido especifico")
     void detalhaPedidoEspecificoPeloId() {
