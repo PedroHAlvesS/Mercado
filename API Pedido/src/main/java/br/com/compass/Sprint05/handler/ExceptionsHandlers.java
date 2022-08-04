@@ -1,6 +1,5 @@
 package br.com.compass.Sprint05.handler;
 
-import br.com.compass.Sprint05.exceptions.ExceptionResponseDto;
 import br.com.compass.Sprint05.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -103,6 +102,13 @@ public class ExceptionsHandlers {
     @ExceptionHandler(ValorCartaoMenor.class)
     public ResponseEntity<ExceptionResponseDto> handlerValorCartaoMenor(ValorCartaoMenor exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "Valor");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(PedidoJaProcessado.class)
+    public ResponseEntity<ExceptionResponseDto> handlerPedidoJaPagoException(PedidoJaProcessado exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Esse pedido já foi processado, e nao pode ser deletado", "Status Pagamento");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
     }
 
