@@ -84,6 +84,9 @@ class PedidoServiceTest {
         Mockito.verify(modelMapper).map(pedidoEntity, ResponsePedidoDTO.class);
 
     }
+  
+
+
 
     @Test
     @DisplayName("Deveria deletar com sucesso um pedido em processando")
