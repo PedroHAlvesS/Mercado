@@ -1,6 +1,7 @@
 package br.com.compass.Sprint05.service;
 
 import br.com.compass.Sprint05.constants.EnumStatusPagamento;
+import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
@@ -69,10 +70,24 @@ public class PedidoService {
     private Double calculaTotal(RequestPedidoDto requestDTO) {
         Double valor = 0.0;
         for (int i = 0; i < requestDTO.getItens().size(); i++) {
-            valor += requestDTO.getItens().get(i).getValor();
+            valor += aplicaOfertaNoItem(requestDTO.getItens().get(i));
         }
         return valor;
     }
+
+    private Double aplicaOfertaNoItem(RequestItemDto requestItemDto) {
+        if (requestItemDto.getOfertas() == null) {
+            return requestItemDto.getValor();
+        }
+
+        Double valorOfertas = 0.0;
+        for (int i = 0; i < requestItemDto.getOfertas().size(); i++) {
+            valorOfertas += requestItemDto.getOfertas().get(i).getDesconto();
+        }
+        // O valor minímo do item tem que ser 100 reais
+        return Math.max(requestItemDto.getValor() - valorOfertas, 100.0);
+    }
+
 
     public void deleta(Long id) {
         PedidoEntity pedidoEntity = pedidoRepository.findById(id).orElseThrow(PedidoNaoEncontrado::new);

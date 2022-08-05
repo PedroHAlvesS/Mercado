@@ -3,6 +3,7 @@ package br.com.compass.Sprint05.service;
 import br.com.compass.Sprint05.constants.EnumStatusPagamento;
 import br.com.compass.Sprint05.dto.item.request.RequestAtualizaItemDto;
 import br.com.compass.Sprint05.dto.item.request.RequestItemDto;
+import br.com.compass.Sprint05.dto.oferta.request.RequestItemOfertaDto;
 import br.com.compass.Sprint05.dto.pagamento.request.RequestPagamentoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestAtualizaPedidoDto;
 import br.com.compass.Sprint05.dto.pedido.request.RequestPedidoDto;
@@ -84,6 +85,108 @@ class PedidoServiceTest {
         Mockito.verify(modelMapper).map(pedidoEntity, ResponsePedidoDTO.class);
 
     }
+
+    @Test
+    @DisplayName("Deveria salvar um pedido aplicando o valor da oferta. Sem que essa oferta faca o item valer 100 reais")
+    void deveriaSalvarUmPedidoAplicandoOValorDaOfertaSemSuperarOValorMinimoDe100() {
+        RequestItemOfertaDto ofertaDto = RequestItemOfertaDto.builder()
+                .nome("Oferta teste")
+                .desconto(899.99)
+                .build();
+
+        List<RequestItemOfertaDto> ofertaDtoList = new ArrayList<>();
+        ofertaDtoList.add(ofertaDto);
+
+        RequestItemDto itemDto = RequestItemDto.builder()
+                .nome("Carro")
+                .descricao("Automóvel")
+                .valor(1000.00)
+                .dataValidade("27/12/2011 15:10:15")
+                .ofertas(ofertaDtoList)
+                .build();
+
+        List<RequestItemDto> itensDtoList = new ArrayList<>();
+        itensDtoList.add(itemDto);
+
+        RequestPedidoDto pedidoDto = RequestPedidoDto.builder()
+                .cpf("xxx-xxx-xxx-yy")
+                .itens(itensDtoList)
+                .build();
+
+        PedidoEntity pedidoEntity = PedidoEntity.builder()
+                .cpf(pedidoDto.getCpf())
+                .id(1L)
+                .build();
+
+        RequestPagamentoDto pagamentoDto = new RequestPagamentoDto();
+        pedidoDto.setPagamento(pagamentoDto);
+
+
+        Mockito.when(modelMapper.map(pedidoDto, PedidoEntity.class)).thenReturn(pedidoEntity);
+        Mockito.when(pedidoRepository.save(pedidoEntity)).thenReturn(pedidoEntity);
+        Double valorEsperado = itemDto.getValor() - ofertaDto.getDesconto();
+
+
+        pedidoService.salva(pedidoDto);
+        Assertions.assertEquals(valorEsperado, pedidoEntity.getTotal());
+        Mockito.verify(modelMapper).map(pedidoEntity, ResponsePedidoDTO.class);
+    }
+
+    @Test
+    @DisplayName("Deveria salvar o pedido com valor total de 100, caso o desconto supere o valor do item")
+    void deveriaSalvarOPedidoComValorTotalDe100CasoODescontoSupereOValorDoItem() {
+        RequestItemOfertaDto ofertaDto = RequestItemOfertaDto.builder()
+                .nome("Oferta teste")
+                .desconto(1.0)
+                .build();
+
+        RequestItemOfertaDto ofertaDto2 = RequestItemOfertaDto.builder()
+                .nome("Oferta teste 2")
+                .desconto(999.0)
+                .build();
+
+        List<RequestItemOfertaDto> ofertaDtoList = new ArrayList<>();
+        ofertaDtoList.add(ofertaDto);
+        ofertaDtoList.add(ofertaDto2);
+
+        RequestItemDto itemDto = RequestItemDto.builder()
+                .nome("Carro")
+                .descricao("Automóvel")
+                .valor(1000.00)
+                .dataValidade("27/12/2011 15:10:15")
+                .ofertas(ofertaDtoList)
+                .build();
+
+        List<RequestItemDto> itensDtoList = new ArrayList<>();
+        itensDtoList.add(itemDto);
+
+        RequestPedidoDto pedidoDto = RequestPedidoDto.builder()
+                .cpf("xxx-xxx-xxx-yy")
+                .itens(itensDtoList)
+                .build();
+
+        PedidoEntity pedidoEntity = PedidoEntity.builder()
+                .cpf(pedidoDto.getCpf())
+                .id(1L)
+                .build();
+
+        RequestPagamentoDto pagamentoDto = new RequestPagamentoDto();
+        pedidoDto.setPagamento(pagamentoDto);
+
+
+        Mockito.when(modelMapper.map(pedidoDto, PedidoEntity.class)).thenReturn(pedidoEntity);
+        Mockito.when(pedidoRepository.save(pedidoEntity)).thenReturn(pedidoEntity);
+        Double valorEsperado = 100.0;
+
+
+        pedidoService.salva(pedidoDto);
+        Assertions.assertEquals(valorEsperado, pedidoEntity.getTotal());
+        Mockito.verify(modelMapper).map(pedidoEntity, ResponsePedidoDTO.class);
+    }
+
+
+
+
 
     @Test
     @DisplayName("Deveria deletar com sucesso um pedido em processando")
