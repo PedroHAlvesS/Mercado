@@ -79,6 +79,7 @@ public class PedidoService {
         if (requestItemDto.getOfertas() == null) {
             return requestItemDto.getValor();
         }
+
         Double valorOfertas = 0.0;
         for (int i = 0; i < requestItemDto.getOfertas().size(); i++) {
             valorOfertas += requestItemDto.getOfertas().get(i).getDesconto();
