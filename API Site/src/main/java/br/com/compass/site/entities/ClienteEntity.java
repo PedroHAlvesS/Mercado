@@ -1,17 +1,20 @@
 package br.com.compass.site.entities;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-@Data
 @Table(name = "site_cliente")
 public class ClienteEntity {
     @Id
@@ -24,3 +27,4 @@ public class ClienteEntity {
     @JoinColumn(name = "cliente_id")
     private List<CartoesEntity> cartoes;
 }
+
