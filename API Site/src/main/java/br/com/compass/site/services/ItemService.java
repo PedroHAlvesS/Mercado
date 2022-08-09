@@ -1,6 +1,7 @@
 package br.com.compass.site.services;
 
 import br.com.compass.site.dto.item.request.RequestItemDto;
+import br.com.compass.site.dto.item.request.RequestPutItemDto;
 import br.com.compass.site.dto.item.response.ResponseItemDto;
 import br.com.compass.site.entities.ItemEntity;
 import br.com.compass.site.repository.ItemRepository;
@@ -41,5 +42,11 @@ public class ItemService {
     public ResponseItemDto listaItem(Long id) {
         ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return modelMapper.map(itemEntity, ResponseItemDto.class);
+    }
+
+    public void atualizaItem(Long id, RequestPutItemDto requestDto) {
+        ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        modelMapper.map(requestDto, itemEntity);
+        itemRepository.save(itemEntity);
     }
 }

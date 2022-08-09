@@ -2,6 +2,7 @@ package br.com.compass.site.controller;
 
 
 import br.com.compass.site.dto.item.request.RequestItemDto;
+import br.com.compass.site.dto.item.request.RequestPutItemDto;
 import br.com.compass.site.dto.item.response.ResponseItemDto;
 import br.com.compass.site.services.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,12 @@ public class ItemController {
     public ResponseEntity<ResponseItemDto> listaUnicoItem(@PathVariable Long id) {
         ResponseItemDto responseDto = itemService.listaItem(id);
         return ResponseEntity.ok(responseDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizaItem(@PathVariable Long id, @RequestBody @Valid RequestPutItemDto requestDto) {
+        itemService.atualizaItem(id, requestDto);
+        return ResponseEntity.noContent().build();
     }
 
 }
