@@ -16,7 +16,7 @@ import java.util.List;
 public class ClienteEntity {
     @Id
     @Column(updatable = false, unique = true, nullable = false)
-    private Long cpf;
+    private String cpf;
     private String nome;
     @CreationTimestamp
     private LocalDateTime dataCriacao;

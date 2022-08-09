@@ -8,8 +8,9 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class RequestClienteDto {
-    @NotNull
-    private Long cpf;
+    @CPF
+    @NotBlank
+    private String cpf;
     @NotBlank
     private String nome;
 }

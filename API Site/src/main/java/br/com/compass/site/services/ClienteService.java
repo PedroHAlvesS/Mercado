@@ -34,13 +34,13 @@ public class ClienteService {
         return clienteEntityList.stream().map(clienteEntity -> modelMapper.map(clienteEntity, ResponseClienteDto.class)).collect(Collectors.toList());
     }
 
-    public ResponseClienteDto listaCliente(Long cpf) {
+    public ResponseClienteDto listaCliente(String cpf) {
         ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return modelMapper.map(clienteEntity, ResponseClienteDto.class);
     }
 
 
-    public void atualizaCliente(Long cpf, RequestPutClienteDto requestDto) {
+    public void atualizaCliente(String cpf, RequestPutClienteDto requestDto) {
         ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         modelMapper.map(requestDto, clienteEntity);
         clienteRepository.save(clienteEntity);

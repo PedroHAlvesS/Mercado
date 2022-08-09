@@ -23,7 +23,7 @@ public class CartoesService {
     private final ModelMapper modelMapper;
 
 
-    public ResponseCartoesDto vinculaCartao(Long cpf, RequestCartoesDto requestDto) {
+    public ResponseCartoesDto vinculaCartao(String cpf, RequestCartoesDto requestDto) {
         ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         CartoesEntity cartoesEntity = modelMapper.map(requestDto, CartoesEntity.class);
         List<CartoesEntity> cartoesCadastradoList = clienteEntity.getCartoes();
@@ -33,18 +33,18 @@ public class CartoesService {
         return modelMapper.map(clienteEntity.getCartoes().get(clienteEntity.getCartoes().size()-1), ResponseCartoesDto.class);
     }
 
-    public List<ResponseCartoesDto> mostraCartoesDoCliente(Long cpf) {
+    public List<ResponseCartoesDto> mostraCartoesDoCliente(String cpf) {
         ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return clienteEntity.getCartoes().stream().map(cartoesEntity -> modelMapper.map(cartoesEntity, ResponseCartoesDto.class)).collect(Collectors.toList());
     }
 
-    public ResponseCartoesDto mostraCartaoDoClienteUnitario(Long cpf, Long id) {
+    public ResponseCartoesDto mostraCartaoDoClienteUnitario(String cpf, Long id) {
         clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return modelMapper.map(cartoesEntity, ResponseCartoesDto.class);
     }
 
-    public void atualizaCartao(Long cpf, Long id, RequestCartoesDto requestDto) {
+    public void atualizaCartao(String cpf, Long id, RequestCartoesDto requestDto) {
         clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         modelMapper.map(requestDto, cartoesEntity);
