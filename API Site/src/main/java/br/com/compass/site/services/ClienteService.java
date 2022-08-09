@@ -24,6 +24,9 @@ public class ClienteService {
 
 
     public ResponseClienteDto criaCliente(RequestClienteDto requestDto) {
+        if (clienteRepository.existsById(requestDto.getCpf())) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        }
         ClienteEntity clienteEntity = modelMapper.map(requestDto, ClienteEntity.class);
         ClienteEntity saveEntity = clienteRepository.save(clienteEntity);
         return modelMapper.map(saveEntity, ResponseClienteDto.class);
