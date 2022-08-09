@@ -2,7 +2,10 @@ package br.com.compass.site.util;
 
 import br.com.compass.site.constants.EnumMarcaCartao;
 import br.com.compass.site.dto.cartoes.request.RequestCartoesDto;
-import br.com.compass.site.exceptions.*;
+import br.com.compass.site.exceptions.AnoCartaoInvalido;
+import br.com.compass.site.exceptions.CodigoSegurancaInvalido;
+import br.com.compass.site.exceptions.MarcaCartaoInvalida;
+import br.com.compass.site.exceptions.MesCartaoInvalido;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -10,7 +13,6 @@ import java.time.LocalDate;
 @Component
 public class ValidaCartoes {
     public void ValidaCartao(RequestCartoesDto requestCartoesDto) {
-        validaNumeroCartao(requestCartoesDto);
         validaDigitoVerificador(requestCartoesDto);
         validaMesExpiracao(requestCartoesDto);
         validaAnoExpiracao(requestCartoesDto);
@@ -25,15 +27,6 @@ public class ValidaCartoes {
         }
     }
 
-    private void validaNumeroCartao(RequestCartoesDto requestCartoesDto) {
-        String regexStringCartao16Digitos = "^[0-9]{16}";
-        String regexStringCartao13Digitos = "^[0-9]{13}";
-
-        if (!requestCartoesDto.getNumero().matches(regexStringCartao16Digitos) && !requestCartoesDto.getNumero().matches(regexStringCartao13Digitos)) {
-            throw new NumeroCartaoInvalido();
-        }
-
-    }
 
     private void validaDigitoVerificador(RequestCartoesDto requestCartoesDto) {
         String regexStringCodigoSegurancaCartao = "^[0-9]{3}";

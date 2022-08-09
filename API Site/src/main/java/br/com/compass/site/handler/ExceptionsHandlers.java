@@ -1,6 +1,9 @@
 package br.com.compass.site.handler;
 
-import br.com.compass.site.exceptions.*;
+import br.com.compass.site.exceptions.AnoCartaoInvalido;
+import br.com.compass.site.exceptions.CodigoSegurancaInvalido;
+import br.com.compass.site.exceptions.MarcaCartaoInvalida;
+import br.com.compass.site.exceptions.MesCartaoInvalido;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -60,12 +63,6 @@ public class ExceptionsHandlers {
     @ExceptionHandler(MesCartaoInvalido.class)
     public ResponseEntity<ExceptionResponseDto> handlerMesCartaoInvalido(MesCartaoInvalido exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Mes do cartao invalido, deve ser de 1 - 12", "MesValidade");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
-    }
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumeroCartaoInvalido.class)
-    public ResponseEntity<ExceptionResponseDto> handlerNumeroCartaoInvalido(NumeroCartaoInvalido exception) {
-        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Numero do cartao invalido, deve ser apenas numeros de 16 digitos ou 13 digitos", "numero");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
 
