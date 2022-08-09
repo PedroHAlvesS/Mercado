@@ -6,6 +6,7 @@ import br.com.compass.site.entities.CartoesEntity;
 import br.com.compass.site.entities.ClienteEntity;
 import br.com.compass.site.repository.CartoesRepository;
 import br.com.compass.site.repository.ClienteRepository;
+import br.com.compass.site.util.ValidaCartoes;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,12 @@ public class CartoesService {
     private final CartoesRepository cartoesRepository;
     private final ClienteRepository clienteRepository;
     private final ModelMapper modelMapper;
+    private final ValidaCartoes validaCartoes;
 
 
     public ResponseCartoesDto vinculaCartao(String cpf, RequestCartoesDto requestDto) {
+        validaCartoes.ValidaCartao(requestDto);
+
         ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         CartoesEntity cartoesEntity = modelMapper.map(requestDto, CartoesEntity.class);
         List<CartoesEntity> cartoesCadastradoList = clienteEntity.getCartoes();

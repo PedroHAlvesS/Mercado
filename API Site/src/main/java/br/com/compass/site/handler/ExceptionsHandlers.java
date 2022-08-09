@@ -1,5 +1,6 @@
 package br.com.compass.site.handler;
 
+import br.com.compass.site.exceptions.*;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -36,12 +37,37 @@ public class ExceptionsHandlers {
     }
 
 
-//    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(MarcaCartaoInvalida.class)
-//    public ResponseEntity<ExceptionResponseDto> handlerMarcaCataoInvalida(MarcaCartaoInvalida exception) {
-//        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Marca do cartao invalida", "Marca");
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
-//    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MarcaCartaoInvalida.class)
+    public ResponseEntity<ExceptionResponseDto> handlerMarcaCataoInvalida(MarcaCartaoInvalida exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Marca do cartao invalida", "Marca");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AnoCartaoInvalido.class)
+    public ResponseEntity<ExceptionResponseDto> handlerAnoCartaoInvalido(AnoCartaoInvalido exception) {
+        String message = "Ano do cartao invalido, deve conter 4 digitos, alem de ser posterior a data no qual o Sr(a) se encontra e inferior a 6 anos no futuro";
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(message, "AnoValidade");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CodigoSegurancaInvalido.class)
+    public ResponseEntity<ExceptionResponseDto> handlerCodigoSegurancaInvalido(CodigoSegurancaInvalido exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Codigo de seguranca do cartao invalido, deve conter 3 digitos", "Codigo");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MesCartaoInvalido.class)
+    public ResponseEntity<ExceptionResponseDto> handlerMesCartaoInvalido(MesCartaoInvalido exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Mes do cartao invalido, deve ser de 1 - 12", "MesValidade");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumeroCartaoInvalido.class)
+    public ResponseEntity<ExceptionResponseDto> handlerNumeroCartaoInvalido(NumeroCartaoInvalido exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Numero do cartao invalido, deve ser apenas numeros de 16 digitos ou 13 digitos", "numero");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
 
     // Nao me processa Reginaldo
     @ExceptionHandler(HttpMessageNotReadableException.class)
