@@ -1,13 +1,15 @@
 package br.com.compass.site.controller;
 
+import br.com.compass.site.dto.cartoes.request.RequestCartoesDto;
+import br.com.compass.site.dto.cartoes.response.ResponseCartoesDto;
 import br.com.compass.site.dto.cliente.request.RequestClienteDto;
 import br.com.compass.site.dto.cliente.request.RequestPutClienteDto;
 import br.com.compass.site.dto.cliente.response.ResponseClienteDto;
+import br.com.compass.site.services.CartoesService;
 import br.com.compass.site.services.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,11 +22,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteController {
     private final ClienteService clienteService;
+    private final CartoesService cartoesService;
 
     @PostMapping
     public ResponseEntity<ResponseClienteDto> criaCliente(@RequestBody @Valid RequestClienteDto requestDto, UriComponentsBuilder uriBuilder) {
         ResponseClienteDto responseDto = clienteService.criaCliente(requestDto);
-        URI uri = uriBuilder.path("/api/cliente/{id}").buildAndExpand(responseDto.getCpf()).toUri();
+        URI uri = uriBuilder.path("/api/cliente/{cpf}").buildAndExpand(responseDto.getCpf()).toUri();
         return ResponseEntity.created(uri).body(responseDto);
     }
 
@@ -45,5 +48,13 @@ public class ClienteController {
         clienteService.atualizaCliente(cpf, requestDto);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{cpf}/cartoes")
+    public ResponseEntity<ResponseCartoesDto> vinculaCartao(@PathVariable Long cpf, @RequestBody @Valid RequestCartoesDto requestDto,  UriComponentsBuilder uriBuilder) {
+        ResponseCartoesDto responseDto = cartoesService.vinculaCartao(cpf, requestDto);
+        URI uri = uriBuilder.path("/api/cliente/{cpf}/cartoes/{id}").buildAndExpand(cpf, responseDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(responseDto);
+    }
+
 
 }
