@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class RequestItemDto {
     @NotBlank
     private String nome;
+    @NotNull
     @JsonFormat(pattern = "dd/MM/uuuu HH:mm:ss", lenient = OptBoolean.FALSE)
     private LocalDateTime dataValidade;
     @NotNull

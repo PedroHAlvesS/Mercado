@@ -44,6 +44,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> atualizaItem(@PathVariable Long id, @RequestBody @Valid RequestPutItemDto requestDto) {
         itemService.atualizaItem(id, requestDto);
         return ResponseEntity.noContent().build();

@@ -41,12 +41,14 @@ public class ItemService {
 
     public ResponseItemDto listaItem(Long id) {
         ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        log.debug("O item buscado: {}", itemEntity);
         return modelMapper.map(itemEntity, ResponseItemDto.class);
     }
 
     public void atualizaItem(Long id, RequestPutItemDto requestDto) {
         ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         modelMapper.map(requestDto, itemEntity);
+        log.debug("Item atualizado: {}", itemEntity);
         itemRepository.save(itemEntity);
     }
 }
