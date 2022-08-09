@@ -25,7 +25,7 @@ public class ItemController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ResponseItemDto> criaItem(@RequestBody @Valid RequestItemDto requestDto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ResponseItemDto> criaItem(@Valid @RequestBody RequestItemDto requestDto, UriComponentsBuilder uriBuilder) {
         ResponseItemDto responseDto = itemService.criaItem(requestDto);
         URI uri = uriBuilder.path("/api/item/{id}").buildAndExpand(responseDto.getId()).toUri();
         return ResponseEntity.created(uri).body(responseDto);
@@ -45,7 +45,7 @@ public class ItemController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> atualizaItem(@PathVariable Long id, @RequestBody @Valid RequestPutItemDto requestDto) {
+    public ResponseEntity<Void> atualizaItem(@PathVariable Long id, @Valid @RequestBody RequestPutItemDto requestDto) {
         itemService.atualizaItem(id, requestDto);
         return ResponseEntity.noContent().build();
     }

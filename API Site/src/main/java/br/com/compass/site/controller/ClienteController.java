@@ -25,7 +25,7 @@ public class ClienteController {
     private final CartoesService cartoesService;
 
     @PostMapping
-    public ResponseEntity<ResponseClienteDto> criaCliente(@RequestBody @Valid RequestClienteDto requestDto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ResponseClienteDto> criaCliente(@Valid @RequestBody RequestClienteDto requestDto, UriComponentsBuilder uriBuilder) {
         ResponseClienteDto responseDto = clienteService.criaCliente(requestDto);
         URI uri = uriBuilder.path("/api/cliente/{cpf}").buildAndExpand(responseDto.getCpf()).toUri();
         return ResponseEntity.created(uri).body(responseDto);
@@ -44,13 +44,13 @@ public class ClienteController {
     }
 
     @PutMapping("/{cpf}")
-    public ResponseEntity<Void> atualizaCLiente(@PathVariable Long cpf, @RequestBody @Valid RequestPutClienteDto requestDto) {
+    public ResponseEntity<Void> atualizaCLiente(@PathVariable Long cpf, @Valid @RequestBody RequestPutClienteDto requestDto) {
         clienteService.atualizaCliente(cpf, requestDto);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{cpf}/cartoes")
-    public ResponseEntity<ResponseCartoesDto> vinculaCartao(@PathVariable Long cpf, @RequestBody @Valid RequestCartoesDto requestDto,  UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ResponseCartoesDto> vinculaCartao(@PathVariable Long cpf, @Valid @RequestBody RequestCartoesDto requestDto,  UriComponentsBuilder uriBuilder) {
         ResponseCartoesDto responseDto = cartoesService.vinculaCartao(cpf, requestDto);
         URI uri = uriBuilder.path("/api/cliente/{cpf}/cartoes/{id}").buildAndExpand(cpf, responseDto.getId()).toUri();
         return ResponseEntity.created(uri).body(responseDto);
@@ -60,6 +60,12 @@ public class ClienteController {
     public ResponseEntity<List<ResponseCartoesDto>> mostraCartoesDoCliente(@PathVariable Long cpf) {
         List<ResponseCartoesDto> responseDtoList = cartoesService.mostraCartoesDoCliente(cpf);
         return ResponseEntity.ok(responseDtoList);
+    }
+
+    @GetMapping("/{cpf}/cartoes/{id}")
+    public ResponseEntity<ResponseCartoesDto> mostraCartaoUnitario(@PathVariable Long cpf, @PathVariable Long id) {
+        ResponseCartoesDto responseDto = cartoesService.mostraCartaoDoClienteUnitario(cpf, id);
+        return ResponseEntity.ok(responseDto);
     }
 
 

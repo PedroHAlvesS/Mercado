@@ -38,4 +38,9 @@ public class CartoesService {
         return clienteEntity.getCartoes().stream().map(cartoesEntity -> modelMapper.map(cartoesEntity, ResponseCartoesDto.class)).collect(Collectors.toList());
     }
 
+    public ResponseCartoesDto mostraCartaoDoClienteUnitario(Long cpf, Long id) {
+        clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return modelMapper.map(cartoesEntity, ResponseCartoesDto.class);
+    }
 }
