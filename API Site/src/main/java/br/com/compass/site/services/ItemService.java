@@ -8,7 +8,9 @@ import br.com.compass.site.util.GerarSkuId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,5 +36,10 @@ public class ItemService {
         List<ItemEntity> itemEntityList = itemRepository.findAll();
         List<ResponseItemDto> responseItemDtoList = itemEntityList.stream().map(itemEntity -> modelMapper.map(itemEntity, ResponseItemDto.class)).collect(Collectors.toList());
         return responseItemDtoList;
+    }
+
+    public ResponseItemDto listaItem(Long id) {
+        ItemEntity itemEntity = itemRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return modelMapper.map(itemEntity, ResponseItemDto.class);
     }
 }

@@ -7,10 +7,7 @@ import br.com.compass.site.services.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -35,8 +32,14 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<ResponseItemDto>> listaItens() {
-        List<ResponseItemDto> responseItemDtoList = itemService.listaItens();
-        return ResponseEntity.ok(responseItemDtoList);
+        List<ResponseItemDto> responseDtoList = itemService.listaItens();
+        return ResponseEntity.ok(responseDtoList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseItemDto> listaUnicoItem(@PathVariable Long id) {
+        ResponseItemDto responseDto = itemService.listaItem(id);
+        return ResponseEntity.ok(responseDto);
     }
 
 }
