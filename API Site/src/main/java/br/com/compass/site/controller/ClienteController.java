@@ -68,5 +68,10 @@ public class ClienteController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @PutMapping("/{cpf}/cartoes/{id}")
+    public ResponseEntity<Void> atualizaCartao(@PathVariable Long cpf, @PathVariable Long id, @Valid @RequestBody RequestCartoesDto requestDto) {
+        cartoesService.atualizaCartao(cpf, id, requestDto);
+        return ResponseEntity.noContent().build();
+    }
 
 }

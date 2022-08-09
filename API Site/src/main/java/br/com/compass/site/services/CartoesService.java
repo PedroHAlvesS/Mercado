@@ -43,4 +43,11 @@ public class CartoesService {
         CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return modelMapper.map(cartoesEntity, ResponseCartoesDto.class);
     }
+
+    public void atualizaCartao(Long cpf, Long id, RequestCartoesDto requestDto) {
+        clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        modelMapper.map(requestDto, cartoesEntity);
+        cartoesRepository.save(cartoesEntity);
+    }
 }
