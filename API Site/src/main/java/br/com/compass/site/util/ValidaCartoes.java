@@ -61,7 +61,5 @@ public class ValidaCartoes {
         if (!anoCartaoValido) {
             throw new AnoCartaoInvalido();
         }
-
-
     }
 }
