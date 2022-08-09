@@ -56,5 +56,11 @@ public class ClienteController {
         return ResponseEntity.created(uri).body(responseDto);
     }
 
+    @GetMapping("/{cpf}/cartoes")
+    public ResponseEntity<List<ResponseCartoesDto>> mostraCartoesDoCliente(@PathVariable Long cpf) {
+        List<ResponseCartoesDto> responseDtoList = cartoesService.mostraCartoesDoCliente(cpf);
+        return ResponseEntity.ok(responseDtoList);
+    }
+
 
 }

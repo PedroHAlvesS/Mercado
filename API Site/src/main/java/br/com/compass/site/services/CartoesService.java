@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -31,4 +32,10 @@ public class CartoesService {
         clienteRepository.save(clienteEntity);
         return modelMapper.map(clienteEntity.getCartoes().get(clienteEntity.getCartoes().size()-1), ResponseCartoesDto.class);
     }
+
+    public List<ResponseCartoesDto> mostraCartoesDoCliente(Long cpf) {
+        ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return clienteEntity.getCartoes().stream().map(cartoesEntity -> modelMapper.map(cartoesEntity, ResponseCartoesDto.class)).collect(Collectors.toList());
+    }
+
 }
