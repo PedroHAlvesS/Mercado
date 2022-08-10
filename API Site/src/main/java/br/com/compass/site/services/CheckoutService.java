@@ -11,7 +11,9 @@ import br.com.compass.site.dto.checkout.response.ResponseCheckoutDto;
 import br.com.compass.site.dto.checkout.response.ResponseCheckoutItensDto;
 import br.com.compass.site.entities.ClienteEntity;
 import br.com.compass.site.entities.ItemEntity;
-import br.com.compass.site.exceptions.*;
+import br.com.compass.site.exceptions.CartaoNaoVinculado;
+import br.com.compass.site.exceptions.ItemNaoExiste;
+import br.com.compass.site.exceptions.ItemSemEstoque;
 import br.com.compass.site.repository.ClienteRepository;
 import br.com.compass.site.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,10 +36,12 @@ public class CheckoutService {
 
     public ResponseCheckoutDto enviaPedido(RequestCheckoutDto requestDto) {
         List<RequestApiPedidoItemDto> requestApiPedidoItemDtoList = recebeListaDeItensDto(requestDto);
-        Double total = calculaTotalDosItens(requestDto);
+        Double total = calculaTotalDosItens(requestApiPedidoItemDtoList);
+
         ClienteEntity clienteEntity = validaClienteECartao(requestDto);
         ResponseCartoesDto responseCartoesDto = montaDadosDoCartao(clienteEntity);
         String nome = recuperaNomeCliente(clienteEntity);
+
         RequestApiPedidoDto apiPedidoDto = criaPedidoDto(requestDto, total, requestApiPedidoItemDtoList, responseCartoesDto, nome);
         ResponseApiPedidoDto responseApiPedidoDto = mandaRequestParaApiPedido(apiPedidoDto);
         return montaCheckoutResponse(responseApiPedidoDto);
@@ -53,7 +56,8 @@ public class CheckoutService {
         responseCheckoutDto.setNumeroDoPedido(responseApiPedidoDto.getId());
         responseCheckoutDto.setTotal(responseApiPedidoDto.getTotal());
         responseCheckoutDto.setStatus(responseApiPedidoDto.getStatus());
-        List<ResponseCheckoutItensDto> responseCheckoutItensDtoList = responseApiPedidoDto.getItens().stream().map(responseApiPedidoItemDto -> modelMapper.map(responseApiPedidoItemDto, ResponseCheckoutItensDto.class)).collect(Collectors.toList());
+        List<ResponseCheckoutItensDto> responseCheckoutItensDtoList = responseApiPedidoDto.getItens().stream().map(
+                responseApiPedidoItemDto -> modelMapper.map(responseApiPedidoItemDto, ResponseCheckoutItensDto.class)).collect(Collectors.toList());
         responseCheckoutDto.setItens(responseCheckoutItensDtoList);
         return responseCheckoutDto;
     }
@@ -91,13 +95,12 @@ public class CheckoutService {
         return clienteRepository.findByCpfAndCartoes_id(cpf, cartaoId).orElseThrow(CartaoNaoVinculado::new);
     }
 
-    private Double calculaTotalDosItens(RequestCheckoutDto requestDto) {
+    private Double calculaTotalDosItens(List<RequestApiPedidoItemDto> requestDto) {
         Double total = 0.0;
-        for (int i = 0; i < requestDto.getItens().size(); i++) {
-            ItemEntity itemEntity = itemRepository.findBySkuId(requestDto.getItens().get(i).getSkuId()).orElseThrow(ItemNaoExiste::new);
-            confereEstoque(requestDto, i, itemEntity);
-            total += itemEntity.getValor() * requestDto.getItens().get(i).getQtd();
-            itemEntity.setEstoque(itemEntity.getEstoque() - requestDto.getItens().get(i).getQtd());
+        for (RequestApiPedidoItemDto requestApiPedidoItemDto : requestDto) {
+            Double valorItem = requestApiPedidoItemDto.getValor();
+            int quantidadeItem = requestApiPedidoItemDto.getQtd();
+            total += (valorItem * quantidadeItem);
         }
         return total;
     }
@@ -105,12 +108,17 @@ public class CheckoutService {
     private List<RequestApiPedidoItemDto> recebeListaDeItensDto(RequestCheckoutDto requestDto) {
         List<RequestApiPedidoItemDto> requestApiPedidoItemDtoList = new ArrayList<>();
         for (int i = 0; i < requestDto.getItens().size(); i++) {
-            ItemEntity itemEntity = itemRepository.findBySkuId(requestDto.getItens().get(i).getSkuId()).orElseThrow(ItemNaoExiste::new);
-            confereEstoque(itemEntity);
-            itemEntity.setEstoque(itemEntity.getEstoque() - requestDto.getItens().get(i).getQtd());
+            String skuId = requestDto.getItens().get(i).getSkuId();
+            RequestCheckoutItensDto requestCheckoutItensDto = requestDto.getItens().get(i);
+
+            ItemEntity itemEntity = itemRepository.findBySkuId(skuId).orElseThrow(ItemNaoExiste::new);
+            confereEstoque(requestCheckoutItensDto, itemEntity);
+            ItemEntity itemEntityEstoqueAtualizado = atualizaEstoque(requestCheckoutItensDto, itemEntity);
+
             RequestApiPedidoItemDto requestApiPedidoItemDto = modelMapper.map(itemEntity, RequestApiPedidoItemDto.class);
             requestApiPedidoItemDto.setQtd(requestDto.getItens().get(i).getQtd());
             requestApiPedidoItemDtoList.add(requestApiPedidoItemDto);
+            itemRepository.save(itemEntityEstoqueAtualizado);
         }
         return requestApiPedidoItemDtoList;
     }
@@ -122,4 +130,8 @@ public class CheckoutService {
         }
     }
 
+    private ItemEntity atualizaEstoque(RequestCheckoutItensDto requestDto, ItemEntity itemEntity) {
+        itemEntity.setEstoque(itemEntity.getEstoque() - requestDto.getQtd());
+        return itemEntity;
+    }
 }

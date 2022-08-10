@@ -36,13 +36,13 @@ public class ExceptionsHandlers {
         return ResponseEntity.badRequest().body(responseDTOList);
     }
 
-
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MarcaCartaoInvalida.class)
     public ResponseEntity<ExceptionResponseDto> handlerMarcaCataoInvalida(MarcaCartaoInvalida exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Marca do cartao invalida", "Marca");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(AnoCartaoInvalido.class)
     public ResponseEntity<ExceptionResponseDto> handlerAnoCartaoInvalido(AnoCartaoInvalido exception) {
@@ -50,24 +50,28 @@ public class ExceptionsHandlers {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(message, "AnoValidade");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CodigoSegurancaInvalido.class)
     public ResponseEntity<ExceptionResponseDto> handlerCodigoSegurancaInvalido(CodigoSegurancaInvalido exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Codigo de seguranca do cartao invalido, deve conter 3 digitos", "Codigo");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MesCartaoInvalido.class)
     public ResponseEntity<ExceptionResponseDto> handlerMesCartaoInvalido(MesCartaoInvalido exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Mes do cartao invalido, deve ser de 1 - 12", "MesValidade");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CartaoNaoVinculado.class)
     public ResponseEntity<ExceptionResponseDto> handlerCartaoNaoVinculado(CartaoNaoVinculado exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Cartao não vinculado ou cliente nao existe", "cartaoId ou clientId");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ItemNaoExiste.class)
     public ResponseEntity<ExceptionResponseDto> handlerItemNaoExiste(ItemNaoExiste exception) {
@@ -80,6 +84,14 @@ public class ExceptionsHandlers {
     public ResponseEntity<ExceptionResponseDto> handlerItemSemEstoque(ItemSemEstoque exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "qtd");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @ExceptionHandler(CpfJaCadastrado.class)
+    public ResponseEntity<ExceptionResponseDto> handlerAnoCartaoInvalido(CpfJaCadastrado exception) {
+        String message = "CPF já cadastrado";
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(message, "Cpf");
+        return ResponseEntity.status(HttpStatus.OK).body(exceptionResponseDTO);
     }
 
     // Nao me processa Reginaldo
