@@ -13,5 +13,6 @@ public class ResponseItemDto {
     private String dataCriacao;
     private String dataValidade;
     private Double valor;
+    private int qtd;
     private List<ResponseItemOfertaDto> ofertas;
 }
