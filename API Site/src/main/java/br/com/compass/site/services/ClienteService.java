@@ -4,6 +4,7 @@ import br.com.compass.site.dto.cliente.request.RequestClienteDto;
 import br.com.compass.site.dto.cliente.request.RequestPutClienteDto;
 import br.com.compass.site.dto.cliente.response.ResponseClienteDto;
 import br.com.compass.site.entities.ClienteEntity;
+import br.com.compass.site.exceptions.CpfJaCadastrado;
 import br.com.compass.site.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class ClienteService {
 
     public ResponseClienteDto criaCliente(RequestClienteDto requestDto) {
         if (clienteRepository.existsById(requestDto.getCpf())) {
-            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+            throw new CpfJaCadastrado();
         }
         ClienteEntity clienteEntity = modelMapper.map(requestDto, ClienteEntity.class);
         ClienteEntity saveEntity = clienteRepository.save(clienteEntity);
