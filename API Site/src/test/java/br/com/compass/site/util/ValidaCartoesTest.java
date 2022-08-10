@@ -100,8 +100,4 @@ class ValidaCartoesTest {
         Assertions.assertThrows(MarcaCartaoInvalida.class, () -> validaCartoes.ValidaCartao(cartoesDto));
     }
 
-
-
-
-
 }

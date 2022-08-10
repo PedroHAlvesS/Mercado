@@ -14,11 +14,13 @@ public class ValidaDatas {
     private ConverteDatas converteDatas;
 
     public void validaDataDeCriacaoDaOferta(RequestItemDto requestItemDto) {
-        for (int i = 0; i < requestItemDto.getOfertas().size(); i++) {
-            LocalDateTime dataAtual = LocalDateTime.now();
-            LocalDateTime dataValidadeOferta = converteDatas.formataDataISO8601(requestItemDto.getOfertas().get(i).getDataValidade());
-            if (dataValidadeOferta.isBefore(dataAtual)) {
-                throw new DataValidadeInvalida();
+        if (requestItemDto.getOfertas() != null) {
+            for (int i = 0; i < requestItemDto.getOfertas().size(); i++) {
+                LocalDateTime dataAtual = LocalDateTime.now();
+                LocalDateTime dataValidadeOferta = converteDatas.formataDataISO8601(requestItemDto.getOfertas().get(i).getDataValidade());
+                if (dataValidadeOferta.isBefore(dataAtual)) {
+                    throw new DataValidadeInvalida();
+                }
             }
         }
     }
