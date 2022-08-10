@@ -44,6 +44,8 @@ public class PedidoService {
 
         Double valor = calculaTotal(requestDTO);
 
+
+
         validaDataOferta(requestDTO);
 
         validaConstants.validaTipoDoPagamento(requestDTO);
@@ -70,7 +72,7 @@ public class PedidoService {
     private Double calculaTotal(RequestPedidoDto requestDTO) {
         Double valor = 0.0;
         for (int i = 0; i < requestDTO.getItens().size(); i++) {
-            valor += aplicaOfertaNoItem(requestDTO.getItens().get(i));
+            valor += (aplicaOfertaNoItem(requestDTO.getItens().get(i)) * requestDTO.getItens().get(i).getQtd());
         }
         return valor;
     }

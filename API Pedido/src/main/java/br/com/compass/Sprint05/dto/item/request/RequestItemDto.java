@@ -27,4 +27,7 @@ public class RequestItemDto {
     @NotNull
     private Double valor;
     private List<@Valid RequestItemOfertaDto> ofertas;
+    @Positive
+    @NotNull
+    private int qtd;
 }

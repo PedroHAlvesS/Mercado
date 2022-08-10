@@ -1,9 +1,6 @@
 package br.com.compass.site.handler;
 
-import br.com.compass.site.exceptions.AnoCartaoInvalido;
-import br.com.compass.site.exceptions.CodigoSegurancaInvalido;
-import br.com.compass.site.exceptions.MarcaCartaoInvalida;
-import br.com.compass.site.exceptions.MesCartaoInvalido;
+import br.com.compass.site.exceptions.*;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -63,6 +60,40 @@ public class ExceptionsHandlers {
     @ExceptionHandler(MesCartaoInvalido.class)
     public ResponseEntity<ExceptionResponseDto> handlerMesCartaoInvalido(MesCartaoInvalido exception) {
         ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Mes do cartao invalido, deve ser de 1 - 12", "MesValidade");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CartaoNaoVinculado.class)
+    public ResponseEntity<ExceptionResponseDto> handlerCartaoNaoVinculado(CartaoNaoVinculado exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "cartaoId");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ClienteNaoExiste.class)
+    public ResponseEntity<ExceptionResponseDto> handlerClienteNaoExiste(ClienteNaoExiste exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "clientId");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ClienteNaoPossuiCartao.class)
+    public ResponseEntity<ExceptionResponseDto> handlerClienteNaoPossuiCartao(ClienteNaoPossuiCartao exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("Cliente não possui cartao cadastrado", "cartaoId");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ItemNaoExiste.class)
+    public ResponseEntity<ExceptionResponseDto> handlerClienteNaoPossuiCartao(ItemNaoExiste exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("SkuId nao pertence a nenhum item", "SkuId");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ItemSemEstoque.class)
+    public ResponseEntity<ExceptionResponseDto> handlerClienteNaoPossuiCartao(ItemSemEstoque exception) {
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "qtd");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
 
