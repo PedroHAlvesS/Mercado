@@ -20,6 +20,8 @@ public class ItemEntity {
     @CreationTimestamp
     private LocalDateTime dataCriacao;
     private LocalDateTime dataValidade;
+    @Column(name = "quantidade")
+    private int qtd;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     private List<OfertaEntity> ofertas;

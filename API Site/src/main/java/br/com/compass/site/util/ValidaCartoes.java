@@ -27,7 +27,6 @@ public class ValidaCartoes {
         }
     }
 
-
     private void validaDigitoVerificador(RequestCartoesDto requestCartoesDto) {
         String regexStringCodigoSegurancaCartao = "^[0-9]{3}";
 
