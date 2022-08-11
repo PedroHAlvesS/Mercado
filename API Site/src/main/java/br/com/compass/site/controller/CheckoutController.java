@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -21,9 +20,9 @@ public class CheckoutController {
     private final CheckoutService checkoutService;
 
     @PostMapping
-    public ResponseEntity<ResponseCheckoutDto> criaCheckoutDosItens(@Valid @RequestBody RequestCheckoutDto requestDto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ResponseCheckoutDto> criaCheckoutDosItens(@Valid @RequestBody RequestCheckoutDto requestDto) {
         ResponseCheckoutDto responseDto = checkoutService.enviaPedido(requestDto);
-        URI uri = uriBuilder.path("http://localhost:8080/api/pedido/{id}").buildAndExpand(responseDto.getNumeroDoPedido()).toUri();
+        URI uri = URI.create("http://localhost:8080/api/pedido/" + responseDto.getNumeroDoPedido());
         return ResponseEntity.created(uri).body(responseDto);
     }
 }
