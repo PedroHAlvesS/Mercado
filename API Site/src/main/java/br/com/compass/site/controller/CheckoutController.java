@@ -23,7 +23,7 @@ public class CheckoutController {
     @PostMapping
     public ResponseEntity<ResponseCheckoutDto> criaCheckoutDosItens(@Valid @RequestBody RequestCheckoutDto requestDto, UriComponentsBuilder uriBuilder) {
         ResponseCheckoutDto responseDto = checkoutService.enviaPedido(requestDto);
-        URI uri = uriBuilder.path("/api/pedidos/{id}").buildAndExpand(responseDto.getNumeroDoPedido()).toUri();
+        URI uri = uriBuilder.path("http://localhost:8080/api/pedido/{id}").buildAndExpand(responseDto.getNumeroDoPedido()).toUri();
         return ResponseEntity.created(uri).body(responseDto);
     }
 }
