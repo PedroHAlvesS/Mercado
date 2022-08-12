@@ -1,5 +1,97 @@
 # Sprint05
- O projeto consiste em 2 apis, uma API para a criação de pedidos e outra API para consumir o pedido via mensageria usando o RabbitMQ
+ O projeto consiste em 3 apis, Uma API site, uma API para a criação de pedidos e outra API para consumir o pedido via mensageria usando o RabbitMQ
+## API - Site
+A api que permitir cadastrar itens, cliente e vincular cartão ao cliente. Além de enviar o pedido para a API pedido, através do endpoint Checkout.
+
+### `Post:` ->  `http://localhost:8082/api/cliente` 
+
+``` 
+{
+    "cpf": "CPF Válido",
+    "nome" "Nome válido"
+}
+
+``` 
+___
+### `get:` ->  `http://localhost:8082/api/cliente` 
+ Esse endpoint mostra todos os clientes
+ 
+___
+ ### `get:` ->  `http://localhost:8082/api/cliente/{cpf}` 
+ Esse endpoint mostra o cliente específico.
+ ___
+ ### `put:` ->  `http://localhost:8082/api/cliente/{cpf}` 
+ Esse endpoint permitir atualizar o nome do cliente especifico.
+ ___
+
+### `Post:` ->  `http://localhost:8082/api/item` 
+
+``` 
+{
+    "nome": "Nome do item",
+    "dataValidade": "28/02/2023 12:12:12 (data tem quer se futura)",
+    "valor": 857.58 (valor positivo),
+    "descricao": "descrição do item",
+    "estoque": 50 (valor positivo)
+}
+
+``` 
+___
+### `get:` ->  `http://localhost:8082/api/item` 
+ Esse endpoint mostra todos os item
+___
+ ### `get:` ->  `http://localhost:8082/api/item/{id}` 
+ Esse endpoint mostra o item especifico.
+ ___
+ ### `put:` ->  `http://localhost:8082/api/item/{id}` 
+ Esse endpoint permitir atualizar a data de validade, estoque e valor do item.
+ ___
+
+### `Post:` ->  `http://localhost:8082/api/cliente/{cpf}/cartoes` 
+
+``` 
+{
+    "numero":"Numero do cartão valido com apenas digitos",
+    "codigo":"Apenas os 3 digitos de segurança",
+    "mesValidade":"Apenas um mes entre 1 - 12",
+    "anoValidade":"Apenas um ano entre o atual e atual + 5",
+    "marca":"Uma bandeira de cartão válida"
+}
+
+``` 
+___
+### `get:` ->  `http://localhost:8082/api/cliente/{cpf}/cartoes` 
+ Esse endpoint mostra todos os cartoes
+___
+ ### `get:` ->  `http://localhost:8082/api/cliente/{cpf}/cartoes/{id}` 
+ Esse endpoint mostra o cartao especifico.
+ ___
+ ### `put:` ->  `http://localhost:8082/api/cliente/{cpf}/cartoes/{id}` 
+ Esse endpoint permitir atualizar os mesmo campos do post.
+ ___
+
+### `Post:` ->  `http://localhost:8082/api/checkout`
+
+``` 
+{
+    "itens":[
+        {
+            "skuId": "SkuId unico do item",
+            "qtd": "quantidade do item, deve ser positivo"
+        },
+        {
+            "skuId": "ite0152641888151544454645671384815650344503",
+            "qtd": 2
+        }
+    ],
+    "cliente_info":{
+        "clientId": "cpf do cliente",
+        "cartaoId": "Id do cartao, vinculado"
+    }
+}
+
+``` 
+___
 ## API - Criação de pedidos
 A api de criação de pedidos possuí os seguintes endpoints:
 
@@ -43,9 +135,11 @@ O item deve seguir o modelo abaixo, destacando que a oferta é uma **lista de of
            "dataValidade": "25/10/2023 10:10:10"
        }
 
-   ]
+   ],
+   "qtd": 2
 }
 ```
+
 Exemplo de forma completa: 
 ```
 {
@@ -69,7 +163,8 @@ Exemplo de forma completa:
                     "desconto" : 50,
                     "dataValidade": "20/10/2023 10:10:10"
                 }
-            ]
+            ],
+            "qtd": 2
         },
         {
             "nome": "Celular",
