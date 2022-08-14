@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ValidaCartoesTest {
 
     private ValidaCartoes validaCartoes;

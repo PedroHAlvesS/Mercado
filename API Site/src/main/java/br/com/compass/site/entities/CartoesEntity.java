@@ -26,4 +26,7 @@ public class CartoesEntity {
     private String anoValidade;
     @Enumerated(EnumType.STRING)
     private EnumMarcaCartao marca;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "cliente_id")
+    private ClienteEntity cliente;
 }

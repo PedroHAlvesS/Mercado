@@ -8,7 +8,6 @@ public class RequestCartoesDtoBuilder {
     private RequestCartoesDto requestCartoesDto;
 
     private RequestCartoesDtoBuilder() {
-
     }
 
     public static RequestCartoesDtoBuilder one() {
@@ -47,7 +46,13 @@ public class RequestCartoesDtoBuilder {
         return this;
     }
 
+    public RequestCartoesDtoBuilder withNumero(String numero) {
+        this.requestCartoesDto.setNumero(numero);
+        return this;
+    }
+
     public RequestCartoesDto now() {
         return this.requestCartoesDto;
     }
+
 }
