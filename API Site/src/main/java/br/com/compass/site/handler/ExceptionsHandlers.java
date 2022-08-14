@@ -75,7 +75,7 @@ public class ExceptionsHandlers {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ItemNaoExiste.class)
     public ResponseEntity<ExceptionResponseDto> handlerItemNaoExiste(ItemNaoExiste exception) {
-        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto("SkuId nao pertence a nenhum item", "SkuId");
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(exception.getMessage(), "SkuId");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
 
@@ -106,5 +106,13 @@ public class ExceptionsHandlers {
         }
         return ResponseEntity.status(status).body(new ExceptionResponseDto(String.valueOf(status.value()), errorMessage));
 
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ClienteNaoCadastrado.class)
+    public ResponseEntity<ExceptionResponseDto> handlerClienteNaoCadastrado(ClienteNaoCadastrado exception) {
+        String message = "cliente nao cadastrado";
+        ExceptionResponseDto exceptionResponseDTO = new ExceptionResponseDto(message, "clientId");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponseDTO);
     }
 }

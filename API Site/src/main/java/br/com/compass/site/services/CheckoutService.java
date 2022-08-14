@@ -9,13 +9,16 @@ import br.com.compass.site.dto.checkout.request.RequestCheckoutDto;
 import br.com.compass.site.dto.checkout.request.RequestCheckoutItensDto;
 import br.com.compass.site.dto.checkout.response.ResponseCheckoutDto;
 import br.com.compass.site.dto.checkout.response.ResponseCheckoutItensDto;
+import br.com.compass.site.entities.CartoesEntity;
 import br.com.compass.site.entities.ClienteEntity;
 import br.com.compass.site.entities.ItemEntity;
 import br.com.compass.site.exceptions.CartaoNaoVinculado;
+import br.com.compass.site.exceptions.ClienteNaoCadastrado;
 import br.com.compass.site.exceptions.ItemNaoExiste;
-import br.com.compass.site.exceptions.ItemSemEstoque;
+import br.com.compass.site.repository.CartoesRepository;
 import br.com.compass.site.repository.ClienteRepository;
 import br.com.compass.site.repository.ItemRepository;
+import br.com.compass.site.util.ControleDeEstoque;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -31,24 +34,26 @@ public class CheckoutService {
     private final WebClient.Builder webBuilder;
     private final ItemRepository itemRepository;
     private final ClienteRepository clienteRepository;
+    private final CartoesRepository cartoesRepository;
     private final ModelMapper modelMapper;
+    private final ControleDeEstoque controleDeEstoque;
 
 
     public ResponseCheckoutDto enviaPedido(RequestCheckoutDto requestDto) {
         List<RequestApiPedidoItemDto> requestApiPedidoItemDtoList = recebeListaDeItensDto(requestDto);
         Double total = calculaTotalDosItens(requestApiPedidoItemDtoList);
 
-        ClienteEntity clienteEntity = validaClienteECartao(requestDto);
-        ResponseCartoesDto responseCartoesDto = montaDadosDoCartao(clienteEntity);
-        String nome = recuperaNomeCliente(clienteEntity);
+        String nome = recuperaNomeCliente(requestDto);
+        CartoesEntity cartoesEntity = recuperaCartaoEntity(requestDto);
+        ResponseCartoesDto responseCartoesDto = montaDadosDoCartao(cartoesEntity);
 
         RequestApiPedidoDto apiPedidoDto = criaPedidoDto(requestDto, total, requestApiPedidoItemDtoList, responseCartoesDto, nome);
         ResponseApiPedidoDto responseApiPedidoDto = mandaRequestParaApiPedido(apiPedidoDto);
         return montaCheckoutResponse(responseApiPedidoDto);
     }
 
-    private ResponseCartoesDto montaDadosDoCartao(ClienteEntity clienteEntity) {
-        return modelMapper.map(clienteEntity.getCartoes().get(0), ResponseCartoesDto.class);
+    private ResponseCartoesDto montaDadosDoCartao(CartoesEntity cartoesEntity) {
+        return modelMapper.map(cartoesEntity, ResponseCartoesDto.class);
     }
 
     private ResponseCheckoutDto montaCheckoutResponse(ResponseApiPedidoDto responseApiPedidoDto) {
@@ -85,14 +90,16 @@ public class CheckoutService {
         return apiPedidoDto;
     }
 
-    private String recuperaNomeCliente(ClienteEntity clienteEntity) {
+    private String recuperaNomeCliente(RequestCheckoutDto requestCheckoutDto) {
+        String cpf = requestCheckoutDto.getClienteInfo().getClientId();
+        ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(ClienteNaoCadastrado::new);
         return clienteEntity.getNome();
     }
 
-    private ClienteEntity validaClienteECartao(RequestCheckoutDto requestDto) {
+    private CartoesEntity recuperaCartaoEntity(RequestCheckoutDto requestDto) {
         String cpf = requestDto.getClienteInfo().getClientId();
         Long cartaoId = requestDto.getClienteInfo().getCartaoId();
-        return clienteRepository.findByCpfAndCartoes_id(cpf, cartaoId).orElseThrow(CartaoNaoVinculado::new);
+        return cartoesRepository.findByIdAndCliente_cpf(cartaoId, cpf).orElseThrow(CartaoNaoVinculado::new);
     }
 
     private Double calculaTotalDosItens(List<RequestApiPedidoItemDto> requestDto) {
@@ -109,11 +116,10 @@ public class CheckoutService {
         List<RequestApiPedidoItemDto> requestApiPedidoItemDtoList = new ArrayList<>();
         for (int i = 0; i < requestDto.getItens().size(); i++) {
             String skuId = requestDto.getItens().get(i).getSkuId();
-            RequestCheckoutItensDto requestCheckoutItensDto = requestDto.getItens().get(i);
+            RequestCheckoutItensDto requestCheckoutItensDtoUnitario = requestDto.getItens().get(i);
 
-            ItemEntity itemEntity = itemRepository.findBySkuId(skuId).orElseThrow(ItemNaoExiste::new);
-            confereEstoque(requestCheckoutItensDto, itemEntity);
-            ItemEntity itemEntityEstoqueAtualizado = atualizaEstoque(requestCheckoutItensDto, itemEntity);
+            ItemEntity itemEntity = itemRepository.findBySkuId(skuId).orElseThrow(() -> new ItemNaoExiste("Item de SkuId: " + requestCheckoutItensDtoUnitario.getSkuId() + " nao existe"));
+            ItemEntity itemEntityEstoqueAtualizado = controleDeEstoque.atualizaEstoque(requestCheckoutItensDtoUnitario, itemEntity);
 
             RequestApiPedidoItemDto requestApiPedidoItemDto = modelMapper.map(itemEntity, RequestApiPedidoItemDto.class);
             requestApiPedidoItemDto.setQtd(requestDto.getItens().get(i).getQtd());
@@ -123,15 +129,4 @@ public class CheckoutService {
         return requestApiPedidoItemDtoList;
     }
 
-    private void confereEstoque(RequestCheckoutItensDto requestDto, ItemEntity itemEntity) {
-        if (itemEntity.getEstoque() < requestDto.getQtd()) {
-            throw new ItemSemEstoque("Item de SkuId: " + requestDto.getSkuId() + "" +
-                    "Nao tem essa quantidade no estoque, temos apenas: " + itemEntity.getEstoque());
-        }
-    }
-
-    private ItemEntity atualizaEstoque(RequestCheckoutItensDto requestDto, ItemEntity itemEntity) {
-        itemEntity.setEstoque(itemEntity.getEstoque() - requestDto.getQtd());
-        return itemEntity;
-    }
 }

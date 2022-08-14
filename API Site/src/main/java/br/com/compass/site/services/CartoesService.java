@@ -4,6 +4,7 @@ import br.com.compass.site.dto.cartoes.request.RequestCartoesDto;
 import br.com.compass.site.dto.cartoes.response.ResponseCartoesDto;
 import br.com.compass.site.entities.CartoesEntity;
 import br.com.compass.site.entities.ClienteEntity;
+import br.com.compass.site.exceptions.CartaoNaoVinculado;
 import br.com.compass.site.repository.CartoesRepository;
 import br.com.compass.site.repository.ClienteRepository;
 import br.com.compass.site.util.ValidaCartoes;
@@ -30,11 +31,11 @@ public class CartoesService {
 
         ClienteEntity clienteEntity = clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         CartoesEntity cartoesEntity = modelMapper.map(requestDto, CartoesEntity.class);
-        List<CartoesEntity> cartoesCadastradoList = clienteEntity.getCartoes();
-        cartoesCadastradoList.add(cartoesEntity);
-        clienteEntity.setCartoes(cartoesCadastradoList);
+        clienteEntity.getCartoes().add(cartoesEntity);
         clienteRepository.save(clienteEntity);
-        return modelMapper.map(clienteEntity.getCartoes().get(clienteEntity.getCartoes().size()-1), ResponseCartoesDto.class);
+
+        int ultimoCartao = clienteEntity.getCartoes().size() - 1;
+        return modelMapper.map(clienteEntity.getCartoes().get(ultimoCartao), ResponseCartoesDto.class);
     }
 
     public List<ResponseCartoesDto> mostraCartoesDoCliente(String cpf) {
@@ -43,14 +44,14 @@ public class CartoesService {
     }
 
     public ResponseCartoesDto mostraCartaoDoClienteUnitario(String cpf, Long id) {
-        clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        CartoesEntity cartoesEntity = cartoesRepository.findByIdAndCliente_cpf(id, cpf).orElseThrow(CartaoNaoVinculado::new);
         return modelMapper.map(cartoesEntity, ResponseCartoesDto.class);
     }
 
     public void atualizaCartao(String cpf, Long id, RequestCartoesDto requestDto) {
-        clienteRepository.findById(cpf).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        CartoesEntity cartoesEntity = cartoesRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        CartoesEntity cartoesEntity = cartoesRepository.findByIdAndCliente_cpf(id, cpf).orElseThrow(CartaoNaoVinculado::new);
+
+        validaCartoes.ValidaCartao(requestDto);
         modelMapper.map(requestDto, cartoesEntity);
         cartoesRepository.save(cartoesEntity);
     }
