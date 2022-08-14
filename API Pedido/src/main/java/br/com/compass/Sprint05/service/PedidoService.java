@@ -8,7 +8,6 @@ import br.com.compass.Sprint05.dto.pedido.response.ResponsePedidoDTO;
 import br.com.compass.Sprint05.entities.PedidoEntity;
 import br.com.compass.Sprint05.exceptions.PedidoJaProcessado;
 import br.com.compass.Sprint05.exceptions.PedidoNaoEncontrado;
-import br.com.compass.Sprint05.repository.ItemRepository;
 import br.com.compass.Sprint05.repository.PedidoRepository;
 import br.com.compass.Sprint05.util.ValidaConstants;
 import br.com.compass.Sprint05.util.ValidaDatas;
@@ -26,9 +25,6 @@ public class PedidoService {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
     private ValidaDatas validaDatas;
 
     @Autowired
@@ -44,8 +40,6 @@ public class PedidoService {
 
         Double valor = calculaTotal(requestDTO);
 
-
-
         validaDataOferta(requestDTO);
 
         validaConstants.validaTipoDoPagamento(requestDTO);
@@ -60,7 +54,6 @@ public class PedidoService {
         pedidoEntity.setTotal(valor);
         PedidoEntity saveEntity = pedidoRepository.save(pedidoEntity);
         return modelMapper.map(saveEntity, ResponsePedidoDTO.class);
-
     }
 
     private void validaDataOferta(RequestPedidoDto requestDTO) {

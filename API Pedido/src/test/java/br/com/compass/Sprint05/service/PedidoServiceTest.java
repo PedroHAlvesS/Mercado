@@ -56,6 +56,7 @@ class PedidoServiceTest {
                 .nome("Carro")
                 .descricao("Automóvel")
                 .valor(879.58)
+                .qtd(2)
                 .dataValidade("27/12/2011 15:10:15")
                 .build();
 
@@ -81,7 +82,7 @@ class PedidoServiceTest {
         Mockito.when(pedidoRepository.save(pedidoEntity)).thenReturn(pedidoEntity);
 
         pedidoService.salva(pedidoDto);
-        Assertions.assertEquals(itemDto.getValor(), pedidoEntity.getTotal());
+        Assertions.assertEquals(itemDto.getValor() * itemDto.getQtd(), pedidoEntity.getTotal());
         Mockito.verify(modelMapper).map(pedidoEntity, ResponsePedidoDTO.class);
 
     }
@@ -97,10 +98,12 @@ class PedidoServiceTest {
         List<RequestItemOfertaDto> ofertaDtoList = new ArrayList<>();
         ofertaDtoList.add(ofertaDto);
 
+        int itemQtd = 2;
         RequestItemDto itemDto = RequestItemDto.builder()
                 .nome("Carro")
                 .descricao("Automóvel")
                 .valor(1000.00)
+                .qtd(itemQtd)
                 .dataValidade("27/12/2011 15:10:15")
                 .ofertas(ofertaDtoList)
                 .build();
@@ -124,7 +127,7 @@ class PedidoServiceTest {
 
         Mockito.when(modelMapper.map(pedidoDto, PedidoEntity.class)).thenReturn(pedidoEntity);
         Mockito.when(pedidoRepository.save(pedidoEntity)).thenReturn(pedidoEntity);
-        Double valorEsperado = itemDto.getValor() - ofertaDto.getDesconto();
+        Double valorEsperado = ((itemDto.getValor() - ofertaDto.getDesconto()) * itemQtd) ;
 
 
         pedidoService.salva(pedidoDto);
@@ -152,6 +155,7 @@ class PedidoServiceTest {
         RequestItemDto itemDto = RequestItemDto.builder()
                 .nome("Carro")
                 .descricao("Automóvel")
+                .qtd(1)
                 .valor(1000.00)
                 .dataValidade("27/12/2011 15:10:15")
                 .ofertas(ofertaDtoList)
@@ -184,10 +188,6 @@ class PedidoServiceTest {
         Mockito.verify(modelMapper).map(pedidoEntity, ResponsePedidoDTO.class);
     }
 
-
-
-
-
     @Test
     @DisplayName("Deveria deletar com sucesso um pedido em processando")
     void deveriaDeletarComSucesso() {
@@ -211,7 +211,6 @@ class PedidoServiceTest {
 
         Assertions.assertThrows(PedidoJaProcessado.class, () -> pedidoService.deleta(1L));
         Assertions.assertThrows(PedidoJaProcessado.class, () -> pedidoService.deleta(2L));
-
     }
     @Test
     @DisplayName("Deveria detalhar um pedido especifico")
