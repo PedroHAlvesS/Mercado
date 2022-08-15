@@ -1,0 +1,538 @@
+{
+	"info": {
+		"_postman_id": "bddec227-acb2-42dd-a347-3726a28e962f",
+		"name": "Pedro_Api_Site",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Item legal\",\r\n    \"dataValidade\": \"30/02/2023 12:12:12\",\r\n    \"valor\": 0,\r\n    \"descricao\": \"é um item legal\",\r\n    \"estoque\": -5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista itens",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/api/item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista Item pelo Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/api/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza o Item",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dataValidade\": \"30/02/2000 12:12:12\",\r\n    \"valor\": -50,\r\n    \"estoque\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cria Cliente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\":\"Jose123\",\r\n    \"cpf\": \"261.691.530-83\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista Clientes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/api/cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalha Cliente",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8082/api/cliente/261.691.530-83",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente",
+						"261.691.530-83"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza Cliente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"abc3\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/cliente/261.691.530-83",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente",
+						"261.691.530-83"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vincula Cartao",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numero\":\"448551950246788\",\r\n    \"codigo\":\"xxx\",\r\n    \"mesValidade\":\"mm\",\r\n    \"anoValidade\":\"2038\",\r\n    \"marca\":\"VISA\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/cliente/261.691.530-83/cartoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente",
+						"261.691.530-83",
+						"cartoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mostra Cartoes do Cliente",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numero\":\"xxxx\",\r\n    \"codigo\":\"123\",\r\n    \"mesValidade\":\"00\",\r\n    \"anoValidade\":\"12\",\r\n    \"marca\":\"VISA\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/cliente/261.691.530-83/cartoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente",
+						"261.691.530-83",
+						"cartoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mostra Cartao Unitario do Cliente",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numero\":\"xxxx\",\r\n    \"codigo\":\"123\",\r\n    \"mesValidade\":\"00\",\r\n    \"anoValidade\":\"12\",\r\n    \"marca\":\"VISA\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/cliente/261.691.530-83/cartoes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente",
+						"261.691.530-83",
+						"cartoes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza Cartao",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numero\":\"4485519502467884\",\r\n    \"codigo\":\"008\",\r\n    \"mesValidade\":\"12\",\r\n    \"anoValidade\":\"2025\",\r\n    \"marca\":\"VISA\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/cliente/261.691.530-83/cartoes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"cliente",
+						"261.691.530-83",
+						"cartoes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itens\":[\r\n        {\r\n            \"skuId\": \"ite0071028227062862662990342252333646734556\",\r\n            \"qtd\": 5\r\n        },\r\n        {\r\n            \"skuId\": \"ite0152641888151544454645671384815650344503\",\r\n            \"qtd\": 2\r\n        }\r\n    ],\r\n    \"cliente_info\":{\r\n        \"clientId\": \"261.691.530-83\",\r\n        \"cartaoId\": 1\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalha o Pedido",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "pt-BR",
+						"description": "Receber em Português",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "Requisições em Json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/pedido/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
